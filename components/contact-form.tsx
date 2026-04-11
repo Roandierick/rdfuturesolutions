@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { buttonClassName } from "@/components/button-link";
 import { MailIcon } from "@/components/icons";
+import { siteConfig } from "@/lib/site";
 
 type FormState = {
   naam: string;
@@ -174,7 +175,11 @@ export function ContactForm() {
 
       <p className="mt-5 flex items-center gap-2 text-sm text-[var(--rd-text-muted)]">
         <MailIcon className="h-4 w-4" />
-        Liever rechtstreeks mailen? Dat kan via dierick.roan@gmail.com.
+        Liever rechtstreeks mailen? Dat kan via{" "}
+        <a href={`mailto:${siteConfig.email}`} className="font-medium text-[var(--rd-blue)] hover:underline">
+          {siteConfig.email}
+        </a>
+        .
       </p>
     </form>
   );

@@ -3,7 +3,7 @@ export const siteConfig = {
   description:
     "Professionele websites, apps en software op maat voor KMO's en ondernemers in Vlaanderen.",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rdfs.be",
-  email: "dierick.roan@gmail.com",
+  email: "info@rdfuturesolutions.be",
   phone: "+32468414555",
   phoneDisplay: "+32 468 41 45 55",
   city: "Diest",

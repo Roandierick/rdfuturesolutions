@@ -176,23 +176,8 @@ export default function HomePage() {
 
       <section className="section-space bg-[var(--rd-bg-soft)]">
         <div className="section-shell">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <Reveal>
-              <div className="rd-card flex min-h-[420px] items-center justify-center p-8 text-center">
-                {/* Replace with <Image /> when available */}
-                <div>
-                  <span className="inline-flex rounded-full bg-[rgba(41,82,204,0.08)] px-4 py-1 text-sm font-medium text-[var(--rd-blue)]">
-                    Oprichter
-                  </span>
-                  <h2 className="mt-6 text-3xl font-semibold">Foto van Roan Dierick</h2>
-                  <p className="mt-4 max-w-md text-base leading-7 text-[var(--rd-text-body)]">
-                    Hier kan later een professionele portretfoto komen om de persoonlijke aanpak
-                    van RD Future Solutions nog sterker in beeld te brengen.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-            <Reveal delay={120}>
+          <Reveal>
+            <div className="mx-auto max-w-5xl">
               <SectionHeading
                 eyebrow="Waarom RD Future Solutions"
                 title="Persoonlijke samenwerking, zonder bureaugedoe"
@@ -223,8 +208,8 @@ export default function HomePage() {
                   Lees meer over ons
                 </ButtonLink>
               </div>
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 

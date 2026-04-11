@@ -49,24 +49,8 @@ export default function AboutPage() {
 
       <section className="section-space">
         <div className="section-shell">
-          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-            <Reveal>
-              <div className="rd-card flex min-h-[420px] items-center justify-center p-8 text-center">
-                {/* Replace with <Image /> when available */}
-                <div>
-                  <span className="inline-flex rounded-full bg-[rgba(41,82,204,0.08)] px-4 py-1 text-sm font-medium text-[var(--rd-blue)]">
-                    Portretfoto
-                  </span>
-                  <h2 className="mt-6 text-3xl font-semibold">Roan Dierick</h2>
-                  <p className="mt-4 max-w-md text-base leading-7 text-[var(--rd-text-body)]">
-                    Voeg hier later een foto toe van de oprichter om de persoonlijke uitstraling van
-                    de site nog sterker te maken.
-                  </p>
-                </div>
-              </div>
-            </Reveal>
-
-            <Reveal delay={120}>
+          <Reveal>
+            <div className="mx-auto max-w-5xl">
               <SectionHeading
                 eyebrow="Het verhaal"
                 title="Van eerste websites op 15-jarige leeftijd tot een eigen bedrijf op 20"
@@ -91,8 +75,8 @@ export default function AboutPage() {
                   die echt aansluiten op de dagelijkse realiteit van ondernemers.
                 </p>
               </div>
-            </Reveal>
-          </div>
+            </div>
+          </Reveal>
         </div>
       </section>
 
