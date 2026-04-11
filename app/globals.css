@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand colors — exact hex values, do not deviate */
+  --rd-cyan:        #00C8FF;
+  --rd-blue:        #2952CC;
+  --rd-purple:      #7B35E8;
+
+  /* Gradient — used on CTAs, badges, highlights */
+  --rd-gradient: linear-gradient(135deg, #00C8FF 0%, #2952CC 50%, #7B35E8 100%);
+
+  /* Backgrounds — WHITE site */
+  --rd-bg:          #FFFFFF;
+  --rd-bg-soft:     #F5F7FF;
+  --rd-bg-card:     #FFFFFF;
+
+  /* Text */
+  --rd-text:        #0F1526;
+  --rd-text-body:   #3D4A6B;
+  --rd-text-muted:  #7A87A8;
+
+  /* Borders */
+  --rd-border:      #E2E7F5;
+  --rd-border-accent: rgba(41, 82, 204, 0.2);
+}
+
+@layer base {
+  * {
+    border-color: var(--rd-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--rd-bg);
+    color: var(--rd-text-body);
+    font-family: var(--font-body), sans-serif;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--rd-text);
+    font-family: var(--font-heading), sans-serif;
+    letter-spacing: -0.03em;
+  }
+
+  p {
+    color: var(--rd-text-body);
+  }
+
+  ::selection {
+    background: rgba(41, 82, 204, 0.16);
+    color: var(--rd-text);
+  }
+
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+}
+
+@layer components {
+  .section-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .section-space {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .rd-card {
+    background: var(--rd-bg-card);
+    border: 1px solid var(--rd-border);
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(41,82,204,0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+
+  .rd-card:hover {
+    box-shadow: 0 4px 24px rgba(41,82,204,0.13);
+    transform: translateY(-2px);
+  }
+
+  .rd-button {
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-[8px] font-medium transition duration-200;
+  }
+
+  .rd-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .rd-button-primary {
+    background: var(--rd-gradient);
+    border: none;
+    color: #ffffff;
+    box-shadow: 0 10px 30px rgba(41,82,204,0.16);
+    font-weight: 600;
+  }
+
+  .rd-button-secondary {
+    background: #ffffff;
+    border: 2px solid var(--rd-blue);
+    color: var(--rd-blue);
+    font-weight: 600;
+  }
+
+  .rd-button-ghost {
+    background: transparent;
+    border: 1px solid var(--rd-border);
+    color: var(--rd-text);
+  }
+
+  .gradient-text {
+    background: var(--rd-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .icon-chip {
+    @apply inline-flex h-12 w-12 items-center justify-center rounded-full;
+    background: rgba(41,82,204,0.08);
+    color: var(--rd-blue);
+  }
+
+  .rd-input {
+    @apply w-full rounded-xl border px-4 py-3 text-sm outline-none transition sm:text-base;
+    border-color: var(--rd-border);
+    background: #ffffff;
+    color: var(--rd-text);
+    box-shadow: 0 1px 2px rgba(15, 21, 38, 0.02);
+  }
+
+  .rd-input:focus {
+    border-color: var(--rd-blue);
+    box-shadow: 0 0 0 4px rgba(41,82,204,0.12);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .bg-rd-gradient {
+    background: var(--rd-gradient);
+  }
+}

@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.rdfs.be
+
+# Sitemaps
+Sitemap: https://www.rdfs.be/sitemap.xml
