@@ -27,6 +27,9 @@ export const metadata: Metadata = {
   description: siteConfig.description,
   keywords: siteConfig.keywords,
   applicationName: siteConfig.name,
+  verification: {
+    google: "tP-vpRH9Cr2QZbLbwvusSC7SctmulV9FSCrD6IIpBlw",
+  },
   alternates: {
     canonical: "/",
   },
