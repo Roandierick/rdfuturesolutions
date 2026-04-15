@@ -1,6 +1,8 @@
 /** @type {import('next-sitemap').IConfig} */
+const siteUrl = "https://www.rdfuturesolutions.be";
+
 const config = {
-  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://www.rdfs.be",
+  siteUrl,
   generateRobotsTxt: true,
   changefreq: "weekly",
   priority: 0.7,
@@ -11,9 +13,6 @@ const config = {
         userAgent: "*",
         allow: "/",
       },
-    ],
-    additionalSitemaps: [
-      `${process.env.NEXT_PUBLIC_SITE_URL || "https://www.rdfs.be"}/sitemap.xml`,
     ],
   },
 };

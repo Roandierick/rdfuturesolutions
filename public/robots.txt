@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Host
-Host: https://www.rdfs.be
+Host: https://www.rdfuturesolutions.be
 
 # Sitemaps
-Sitemap: https://www.rdfs.be/sitemap.xml
+Sitemap: https://www.rdfuturesolutions.be/sitemap.xml
