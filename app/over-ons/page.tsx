@@ -102,9 +102,9 @@ export default function AboutPage() {
       <section className="section-space">
         <div className="section-shell">
           <Reveal>
-            <div className="rd-card p-8 sm:p-10">
-              <h2 className="text-3xl font-semibold">Een duidelijke visie op digitale groei</h2>
-              <blockquote className="mt-6 border-l-4 border-[var(--rd-blue)] pl-6 text-xl leading-9 text-[var(--rd-text)]">
+            <div className="rd-card p-6 sm:p-8 lg:p-10">
+              <h2 className="text-2xl font-semibold sm:text-3xl">Een duidelijke visie op digitale groei</h2>
+              <blockquote className="mt-6 border-l-4 border-[var(--rd-blue)] pl-4 text-lg leading-8 text-[var(--rd-text)] sm:pl-6 sm:text-xl sm:leading-9">
                 &quot;Ik geloof dat elk bedrijf, hoe klein ook, een professionele digitale
                 aanwezigheid verdient. Daar werk ik elke dag aan.&quot;
               </blockquote>

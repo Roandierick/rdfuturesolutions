@@ -74,8 +74,8 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rd-card p-6 sm:p-8">
-      <div className="grid gap-5 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="rd-card w-full p-5 sm:p-6 lg:p-8">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <label className="block">
           <span className="mb-2 block text-sm font-medium text-[var(--rd-text)]">Naam</span>
           <input
@@ -163,7 +163,7 @@ export function ContactForm() {
 
       {feedback ? (
         <p
-          className={`mt-4 rounded-xl px-4 py-3 text-sm ${
+          className={`mt-4 rounded-xl px-4 py-3 text-sm leading-6 ${
             feedback.type === "success"
               ? "bg-[rgba(41,82,204,0.08)] text-[var(--rd-blue)]"
               : "bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]"
@@ -173,10 +173,13 @@ export function ContactForm() {
         </p>
       ) : null}
 
-      <p className="mt-5 flex items-center gap-2 text-sm text-[var(--rd-text-muted)]">
-        <MailIcon className="h-4 w-4" />
+      <p className="mt-5 flex flex-col items-start gap-1 text-sm text-[var(--rd-text-muted)] sm:flex-row sm:items-center sm:gap-2">
+        <MailIcon className="h-4 w-4 flex-none" />
         Liever rechtstreeks mailen? Dat kan via{" "}
-        <a href={`mailto:${siteConfig.email}`} className="font-medium text-[var(--rd-blue)] hover:underline">
+        <a
+          href={`mailto:${siteConfig.email}`}
+          className="break-all font-medium text-[var(--rd-blue)] hover:underline"
+        >
           {siteConfig.email}
         </a>
         .

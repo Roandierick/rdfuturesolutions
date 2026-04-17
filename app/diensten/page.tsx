@@ -59,13 +59,13 @@ export default function ServicesPage() {
       <section className="section-space">
         <div className="section-shell space-y-8">
           <Reveal>
-            <div className="rd-card p-8 sm:p-10">
-              <div className="flex items-center gap-4">
+            <div className="rd-card p-6 sm:p-8 lg:p-10">
+              <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-start">
                 <span className="icon-chip">
                   <GlobeIcon />
                 </span>
                 <div>
-                  <h2 className="text-3xl font-semibold">Website laten maken in Vlaanderen</h2>
+                  <h2 className="text-2xl font-semibold sm:text-3xl">Website laten maken in Vlaanderen</h2>
                   <p className="mt-2 text-base leading-7">
                     Professionele, snelle en SEO-geoptimaliseerde websites volledig op maat. Geen
                     templates, geen beperkingen. Van een strakke landingspagina tot een uitgebreide
@@ -103,13 +103,13 @@ export default function ServicesPage() {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="rd-card p-8 sm:p-10">
-              <div className="flex items-center gap-4">
+            <div className="rd-card p-6 sm:p-8 lg:p-10">
+              <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-start">
                 <span className="icon-chip">
                   <MobileIcon />
                 </span>
                 <div>
-                  <h2 className="text-3xl font-semibold">App laten maken</h2>
+                  <h2 className="text-2xl font-semibold sm:text-3xl">App laten maken</h2>
                   <p className="mt-2 text-base leading-7">
                     Mobiele apps voor iOS en Android, gebouwd met React Native. Van concept tot live
                     in de App Store en Google Play.
@@ -145,13 +145,13 @@ export default function ServicesPage() {
           </Reveal>
 
           <Reveal delay={220}>
-            <div className="rd-card p-8 sm:p-10">
-              <div className="flex items-center gap-4">
+            <div className="rd-card p-6 sm:p-8 lg:p-10">
+              <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-start">
                 <span className="icon-chip">
                   <SoftwareIcon />
                 </span>
                 <div>
-                  <h2 className="text-3xl font-semibold">Software op maat</h2>
+                  <h2 className="text-2xl font-semibold sm:text-3xl">Software op maat</h2>
                   <p className="mt-2 text-base leading-7">
                     Dashboards, automatiseringstools, interne platformen en SaaS-producten op maat
                     wanneer standaardsoftware niet volstaat.
@@ -200,7 +200,7 @@ export default function ServicesPage() {
           <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {processSteps.map((step, index) => (
               <Reveal key={step.title} delay={index * 80}>
-                <div className="rd-card h-full p-6">
+                <div className="rd-card h-full w-full p-5 sm:p-6">
                   <span className="icon-chip">
                     {index === 0 ? (
                       <SearchIcon />
@@ -212,8 +212,8 @@ export default function ServicesPage() {
                       <ShieldIcon />
                     )}
                   </span>
-                  <h3 className="mt-6 text-2xl font-semibold">{step.title}</h3>
-                  <p className="mt-3 leading-7">{step.description}</p>
+                  <h3 className="mt-6 text-xl font-semibold sm:text-2xl">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-7 sm:text-base">{step.description}</p>
                 </div>
               </Reveal>
             ))}

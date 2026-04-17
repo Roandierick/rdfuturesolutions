@@ -26,19 +26,19 @@ export function PageHero({
     <section className="relative overflow-hidden">
       <div className="absolute left-[-10%] top-0 h-72 w-72 rounded-full bg-[radial-gradient(circle,_rgba(0,200,255,0.16)_0%,_rgba(255,255,255,0)_70%)]" />
       <div className="absolute right-[-5%] top-[-5%] h-96 w-96 rounded-full bg-[radial-gradient(circle,_rgba(123,53,232,0.13)_0%,_rgba(255,255,255,0)_70%)]" />
-      <div className="section-shell relative py-10 sm:py-14">
-        <Reveal className="max-w-4xl">
-          <span className="inline-flex rounded-full border border-[var(--rd-border-accent)] bg-[rgba(41,82,204,0.08)] px-4 py-1 text-sm font-medium text-[var(--rd-blue)]">
+      <div className="section-shell relative py-8 sm:py-12 md:py-14">
+        <Reveal className="max-w-4xl min-w-0">
+          <span className="inline-flex max-w-full rounded-full border border-[var(--rd-border-accent)] bg-[rgba(41,82,204,0.08)] px-4 py-1 text-sm font-medium text-[var(--rd-blue)]">
             {eyebrow}
           </span>
-          <h1 className="mt-6 text-4xl font-semibold leading-tight text-balance sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 text-3xl font-semibold leading-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
             {title}
           </h1>
-          <p className="mt-6 max-w-3xl text-lg leading-8 text-[var(--rd-text-body)]">
+          <p className="mt-6 max-w-3xl text-base leading-7 text-[var(--rd-text-body)] sm:text-lg sm:leading-8">
             {description}
           </p>
           {primaryCta || secondaryCta ? (
-            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
               {primaryCta ? (
                 <ButtonLink href={primaryCta.href} size="lg">
                   {primaryCta.label}

@@ -26,20 +26,22 @@ export function PricingCard({
   return (
     <div
       className={cn(
-        "rd-card relative flex h-full flex-col p-6 sm:p-8",
+        "rd-card relative flex h-full w-full min-w-0 flex-col p-5 sm:p-6 lg:p-8",
         highlighted && "border-[var(--rd-blue)] shadow-card-hover",
       )}
     >
       {badge ? (
-        <span className="mb-5 inline-flex w-fit rounded-full bg-rd-gradient px-3 py-1 text-sm font-medium text-white">
+        <span className="mb-5 inline-flex w-fit rounded-full bg-rd-gradient px-3 py-1 text-xs font-medium text-white sm:text-sm">
           {badge}
         </span>
       ) : (
         <div className="mb-7 h-8" />
       )}
-      <h3 className="text-2xl font-semibold">{title}</h3>
-      <p className="mt-3 text-3xl font-semibold text-[var(--rd-text)]">{price}</p>
-      <p className="mt-3 leading-7">{description}</p>
+      <h3 className="text-xl font-semibold sm:text-2xl">{title}</h3>
+      <p className="mt-3 break-words text-2xl font-semibold text-[var(--rd-text)] sm:text-3xl">
+        {price}
+      </p>
+      <p className="mt-3 text-sm leading-7 sm:text-base">{description}</p>
       <ul className="mt-6 space-y-3 text-sm text-[var(--rd-text-body)] sm:text-base">
         {features.map((feature) => (
           <li key={feature} className="flex items-start gap-3">

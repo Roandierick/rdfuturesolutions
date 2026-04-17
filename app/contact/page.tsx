@@ -28,7 +28,7 @@ export default function ContactPage() {
 
       <section id="lead-form" className="section-space scroll-mt-28">
         <div className="section-shell">
-          <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+          <div className="grid gap-8 sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
             <Reveal>
               <div>
                 <SectionHeading
@@ -44,8 +44,8 @@ export default function ContactPage() {
 
             <Reveal delay={120}>
               <div className="space-y-6">
-                <div className="rd-card p-6 sm:p-8">
-                  <h2 className="text-2xl font-semibold">Rechtstreeks bereikbaar</h2>
+                <div className="rd-card p-5 sm:p-6 lg:p-8">
+                  <h2 className="text-xl font-semibold sm:text-2xl">Rechtstreeks bereikbaar</h2>
                   <div className="mt-6 space-y-4">
                     <a
                       href={`tel:${siteConfig.phone}`}
@@ -68,14 +68,16 @@ export default function ContactPage() {
                       </span>
                       <div>
                         <h3 className="text-lg font-semibold">E-mail</h3>
-                        <p className="mt-1 text-sm leading-7 sm:text-base">{siteConfig.email}</p>
+                        <p className="mt-1 break-all text-sm leading-7 sm:text-base">
+                          {siteConfig.email}
+                        </p>
                       </div>
                     </a>
                   </div>
                 </div>
 
-                <div className="rd-card p-6 sm:p-8">
-                  <h2 className="text-2xl font-semibold">Wat je mag verwachten</h2>
+                <div className="rd-card p-5 sm:p-6 lg:p-8">
+                  <h2 className="text-xl font-semibold sm:text-2xl">Wat je mag verwachten</h2>
                   <div className="mt-6 space-y-4">
                     <div className="rounded-2xl bg-[var(--rd-bg-soft)] p-4">
                       <h3 className="flex items-center gap-3 text-lg font-semibold">

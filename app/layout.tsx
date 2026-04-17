@@ -70,9 +70,9 @@ export default function RootLayout({
   return (
     <html lang="nl-BE">
       <body className={`${syne.variable} ${dmSans.variable} antialiased`}>
-        <div className="relative flex min-h-screen flex-col bg-[var(--rd-bg)]">
+        <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[var(--rd-bg)]">
           <SiteHeader />
-          <main className="flex-1 pt-24">{children}</main>
+          <main className="flex-1 overflow-x-clip pt-20 sm:pt-24">{children}</main>
           <SiteFooter />
         </div>
       </body>

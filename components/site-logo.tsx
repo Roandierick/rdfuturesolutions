@@ -45,7 +45,7 @@ export function SiteLogo({
   return (
     <Link
       href="/"
-      className={cn("inline-flex items-center gap-3", className)}
+      className={cn("inline-flex max-w-full items-center gap-2 sm:gap-3", className)}
       aria-label="Ga naar de homepage van RD Future Solutions"
     >
       {hasLogo ? (
@@ -55,15 +55,17 @@ export function SiteLogo({
           width={width}
           height={height}
           priority={priority}
-          className="h-auto w-auto object-contain"
+          sizes={`(max-width: 640px) ${Math.min(width, 140)}px, ${width}px`}
+          className="h-auto max-w-full object-contain"
+          style={{ width: "100%", maxWidth: `${width}px`, height: "auto" }}
           onError={() => setHasLogo(false)}
         />
       ) : (
-        <span className="inline-flex items-center gap-2">
+        <span className="inline-flex max-w-full items-center gap-2">
           <span className="gradient-text text-2xl font-semibold leading-none">RD</span>
           <span
             className={cn(
-              "text-sm font-medium sm:text-base",
+              "text-xs font-medium leading-tight sm:text-base",
               dark ? "text-white" : "text-[var(--rd-text)]",
             )}
           >

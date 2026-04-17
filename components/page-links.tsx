@@ -23,9 +23,9 @@ export function PageLinks({ currentPath }: PageLinksProps) {
         <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {links.map((item, index) => (
             <Reveal key={item.href} delay={index * 80}>
-              <Link href={item.href} className="rd-card block h-full p-6">
-                <h3 className="text-2xl font-semibold">{item.label}</h3>
-                <p className="mt-3 leading-7">{item.description}</p>
+              <Link href={item.href} className="rd-card block h-full w-full p-5 sm:p-6">
+                <h3 className="text-xl font-semibold sm:text-2xl">{item.label}</h3>
+                <p className="mt-3 text-sm leading-7 sm:text-base">{item.description}</p>
                 <span className="mt-5 inline-flex text-sm font-medium text-[var(--rd-blue)]">
                   Naar {item.label.toLowerCase()}
                 </span>

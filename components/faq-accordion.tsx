@@ -26,10 +26,12 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
             <button
               type="button"
               onClick={() => setOpenIndex(isOpen ? -1 : index)}
-              className="flex w-full items-center justify-between gap-6 px-6 py-5 text-left sm:px-8"
+              className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left sm:items-center sm:gap-6 sm:px-8 sm:py-5"
               aria-expanded={isOpen}
             >
-              <span className="text-lg font-semibold text-[var(--rd-text)]">{item.question}</span>
+              <span className="min-w-0 text-base font-semibold text-[var(--rd-text)] sm:text-lg">
+                {item.question}
+              </span>
               <ChevronDownIcon
                 className={cn(
                   "h-5 w-5 flex-none text-[var(--rd-blue)] transition-transform duration-200",
@@ -44,7 +46,9 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
               )}
             >
               <div className="overflow-hidden">
-                <p className="px-6 pb-6 leading-7 sm:px-8">{item.answer}</p>
+                <p className="px-5 pb-5 text-sm leading-7 sm:px-8 sm:pb-6 sm:text-base">
+                  {item.answer}
+                </p>
               </div>
             </div>
           </div>

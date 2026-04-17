@@ -25,8 +25,8 @@ export function InfoCard({
   const content = (
     <>
       <div className="icon-chip">{icon}</div>
-      <h3 className="mt-6 text-2xl font-semibold">{title}</h3>
-      <p className="mt-3 leading-7">{description}</p>
+      <h3 className="mt-6 text-xl font-semibold sm:text-2xl">{title}</h3>
+      <p className="mt-3 text-sm leading-7 sm:text-base">{description}</p>
       {children ? <div className="mt-5">{children}</div> : null}
       {href ? (
         <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-[var(--rd-blue)]">
@@ -41,7 +41,7 @@ export function InfoCard({
     return (
       <Link
         href={href}
-        className={cn("rd-card block p-6 sm:p-8", className)}
+        className={cn("rd-card block h-full w-full min-w-0 p-5 sm:p-6 lg:p-8", className)}
         aria-label={`${linkLabel}: ${title}`}
       >
         {content}
@@ -49,5 +49,5 @@ export function InfoCard({
     );
   }
 
-  return <div className={cn("rd-card p-6 sm:p-8", className)}>{content}</div>;
+  return <div className={cn("rd-card h-full w-full min-w-0 p-5 sm:p-6 lg:p-8", className)}>{content}</div>;
 }

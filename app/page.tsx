@@ -84,24 +84,24 @@ export default function HomePage() {
   return (
     <>
       <StructuredData data={localBusinessSchema} />
-      <section className="relative overflow-hidden pb-16 pt-8 sm:pb-20 sm:pt-12">
+      <section className="relative overflow-hidden pb-14 pt-6 sm:pb-20 sm:pt-10">
         <div className="absolute right-[-8%] top-[-10%] h-[28rem] w-[28rem] rounded-full bg-[radial-gradient(circle,_rgba(123,53,232,0.15)_0%,_rgba(255,255,255,0)_70%)]" />
         <div className="absolute right-[10%] top-[5%] h-80 w-80 rounded-full bg-[radial-gradient(circle,_rgba(0,200,255,0.16)_0%,_rgba(255,255,255,0)_72%)]" />
         <div className="section-shell relative">
           <div className="grid items-center gap-12 lg:grid-cols-[1.2fr_0.8fr]">
-            <Reveal className="max-w-3xl">
-              <span className="inline-flex rounded-full border border-[var(--rd-border-accent)] bg-[rgba(41,82,204,0.08)] px-4 py-1 text-sm font-medium text-[var(--rd-blue)]">
+            <Reveal className="max-w-3xl min-w-0">
+              <span className="inline-flex max-w-full rounded-full border border-[var(--rd-border-accent)] bg-[rgba(41,82,204,0.08)] px-4 py-1 text-sm font-medium text-[var(--rd-blue)]">
                 Webdesign, apps en software op maat vanuit Diest
               </span>
-              <h1 className="mt-6 text-4xl font-semibold leading-tight text-balance sm:text-5xl lg:text-6xl">
+              <h1 className="mt-6 text-3xl font-semibold leading-tight text-balance sm:text-4xl md:text-5xl lg:text-6xl">
                 Jouw website, app of software{" "}
                 <span className="gradient-text">vakkundig gebouwd</span> in Vlaanderen
               </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-[var(--rd-text-body)]">
+              <p className="mt-6 max-w-2xl text-base leading-7 text-[var(--rd-text-body)] sm:text-lg sm:leading-8">
                 RD Future Solutions ontwerpt en bouwt professionele digitale oplossingen voor
                 KMO&apos;s en zelfstandigen in Vlaanderen. Snel, betaalbaar en volledig op maat.
               </p>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                 <ButtonLink href="/contact" size="lg">
                   Gratis offerte aanvragen
                 </ButtonLink>
@@ -112,8 +112,8 @@ export default function HomePage() {
             </Reveal>
 
             <Reveal delay={120}>
-              <div className="rd-card p-6 sm:p-8">
-                <h2 className="text-2xl font-semibold">Wat je mag verwachten</h2>
+              <div className="rd-card w-full p-5 sm:p-6 lg:p-8">
+                <h2 className="text-xl font-semibold sm:text-2xl">Wat je mag verwachten</h2>
                 <div className="mt-6 space-y-4">
                   <div className="rounded-2xl bg-[var(--rd-bg-soft)] p-4">
                     <h3 className="text-lg font-semibold">Snel schakelen</h3>
@@ -232,7 +232,7 @@ export default function HomePage() {
                   href="/prijzen"
                   linkLabel="Bekijk alle prijzen"
                 >
-                  <p className="text-2xl font-semibold text-[var(--rd-text)]">{tier.price}</p>
+                  <p className="text-xl font-semibold text-[var(--rd-text)] sm:text-2xl">{tier.price}</p>
                 </InfoCard>
               </Reveal>
             ))}
@@ -240,13 +240,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="pb-20">
+      <section className="pb-16 sm:pb-20">
         <div className="section-shell">
           <Reveal>
-            <div className="rd-card overflow-hidden bg-[var(--rd-bg-soft)] p-8 sm:p-10">
+            <div className="rd-card overflow-hidden bg-[var(--rd-bg-soft)] p-6 sm:p-8 lg:p-10">
               <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
                 <div className="max-w-2xl">
-                  <h2 className="text-3xl font-semibold">
+                  <h2 className="text-2xl font-semibold sm:text-3xl">
                     Klaar om je digitale aanwezigheid te versterken?
                   </h2>
                   <p className="mt-4 text-base leading-7 text-[var(--rd-text-body)] sm:text-lg">

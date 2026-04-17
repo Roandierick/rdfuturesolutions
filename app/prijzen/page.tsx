@@ -68,8 +68,8 @@ export default function PricingPage() {
       <section className="pb-10">
         <div className="section-shell">
           <Reveal>
-            <div className="rd-card border-[var(--rd-blue)] bg-[var(--rd-bg-soft)] p-6 sm:p-8">
-              <h2 className="text-2xl font-semibold">Belangrijke opmerking</h2>
+            <div className="rd-card border-[var(--rd-blue)] bg-[var(--rd-bg-soft)] p-5 sm:p-6 lg:p-8">
+              <h2 className="text-xl font-semibold sm:text-2xl">Belangrijke opmerking</h2>
               <p className="mt-3 text-base leading-7">
                 Bij elk website- of app-project is een hostingabonnement verplicht. Dit zorgt ervoor
                 dat jouw project online blijft, veilig is en up-to-date.
