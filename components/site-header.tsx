@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ButtonLink } from "@/components/button-link";
+import { buttonClassName } from "@/components/button-link";
 import { CloseIcon, MenuIcon } from "@/components/icons";
 import { SiteLogo } from "@/components/site-logo";
 import { navigation } from "@/lib/site";
@@ -14,16 +14,16 @@ export function SiteHeader() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
+    setIsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
 
     return () => {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -41,12 +41,33 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen]);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(min-width: 768px)");
+
+    function syncMenuState(matches: boolean) {
+      if (matches) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleChange(event: MediaQueryListEvent) {
+      syncMenuState(event.matches);
+    }
+
+    syncMenuState(mediaQuery.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[var(--rd-border)] bg-white/90 backdrop-blur-[8px]">
+    <header className="fixed inset-x-0 top-0 z-[70] border-b border-[var(--rd-border)] bg-white/90 backdrop-blur-[8px]">
       <div className="section-shell">
         <div className="flex h-20 items-center justify-between gap-4 sm:h-24">
           <SiteLogo priority className="min-w-0" />
-          <nav className="hidden items-center gap-2 lg:flex">
+
+          <nav className="hidden items-center gap-2 md:flex">
             {navigation
               .filter((item) => item.href !== "/contact")
               .map((item) => {
@@ -67,87 +88,83 @@ export function SiteHeader() {
                   </Link>
                 );
               })}
-            <ButtonLink href="/contact" size="sm">
+            <Link href="/contact" className={buttonClassName("primary", "sm")}>
               Contact
-            </ButtonLink>
+            </Link>
           </nav>
+
           <button
             type="button"
             onClick={() => setIsOpen((current) => !current)}
-            className="inline-flex h-11 w-11 flex-none items-center justify-center rounded-full border border-[var(--rd-border)] text-[var(--rd-text)] lg:hidden"
-            aria-label="Open navigatiemenu"
+            className="inline-flex h-11 w-11 flex-none items-center justify-center rounded-full border border-[var(--rd-border)] text-[var(--rd-text)] md:hidden"
+            aria-label={isOpen ? "Sluit navigatiemenu" : "Open navigatiemenu"}
             aria-expanded={isOpen}
             aria-controls="mobile-navigation"
           >
-            <MenuIcon />
+            {isOpen ? <CloseIcon /> : <MenuIcon />}
           </button>
         </div>
       </div>
 
-      <div
-        className={cn(
-          "fixed inset-0 z-50 lg:hidden",
-          isOpen ? "pointer-events-auto" : "pointer-events-none",
-        )}
-      >
+      <div className={cn("md:hidden", isOpen ? "pointer-events-auto" : "pointer-events-none")}>
         <button
           type="button"
           onClick={() => setIsOpen(false)}
-          aria-label="Sluit navigatiemenu"
+          aria-label="Sluit mobiel menu"
           className={cn(
-            "absolute inset-0 bg-[rgba(15,21,38,0.22)] transition-opacity",
+            "fixed inset-0 top-20 z-[71] bg-[rgba(15,21,38,0.24)] transition-opacity sm:top-24",
             isOpen ? "opacity-100" : "opacity-0",
           )}
         />
+
         <div
-          id="mobile-navigation"
           className={cn(
-            "absolute right-0 top-0 flex h-full w-full max-w-sm flex-col bg-white p-4 shadow-2xl transition-transform duration-300 sm:p-6",
-            isOpen ? "translate-x-0" : "translate-x-full",
+            "absolute inset-x-0 top-full z-[72] border-t border-[var(--rd-border)] bg-white shadow-2xl transition-all duration-300",
+            isOpen ? "translate-y-0 opacity-100" : "-translate-y-2 opacity-0",
           )}
         >
-          <div className="flex items-center justify-between">
-            <SiteLogo />
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[var(--rd-border)] text-[var(--rd-text)]"
-              aria-label="Sluit navigatiemenu"
+          <div className="section-shell py-4">
+            <nav
+              id="mobile-navigation"
+              className="flex max-h-[calc(100vh-5rem)] flex-col gap-3 overflow-y-auto pb-4 sm:max-h-[calc(100vh-6rem)]"
             >
-              <CloseIcon />
-            </button>
-          </div>
-          <div className="mt-8 flex flex-1 flex-col gap-3 overflow-y-auto pb-6">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href;
-              const isContact = item.href === "/contact";
+              {navigation.map((item) => {
+                const isActive = pathname === item.href;
+                const isContact = item.href === "/contact";
 
-              if (isContact) {
+                if (isContact) {
+                  return (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      onClick={() => setIsOpen(false)}
+                      className={buttonClassName("primary", "lg", "w-full justify-center")}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                }
+
                 return (
-                  <ButtonLink key={item.href} href={item.href} className="w-full justify-center">
-                    {item.label}
-                  </ButtonLink>
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setIsOpen(false)}
+                    className={cn(
+                      "block rounded-2xl border px-4 py-4 text-base font-medium transition",
+                      isActive
+                        ? "border-[var(--rd-blue)] bg-[rgba(41,82,204,0.08)] text-[var(--rd-blue)]"
+                        : "border-[var(--rd-border)] text-[var(--rd-text)]",
+                    )}
+                  >
+                    <span className="block">{item.label}</span>
+                    <span className="mt-1 block text-sm leading-6 text-[var(--rd-text-muted)]">
+                      {item.description}
+                    </span>
+                  </Link>
                 );
-              }
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "rounded-2xl border px-4 py-4 text-base font-medium",
-                    isActive
-                      ? "border-[var(--rd-blue)] bg-[rgba(41,82,204,0.08)] text-[var(--rd-blue)]"
-                      : "border-[var(--rd-border)] text-[var(--rd-text)]",
-                  )}
-                >
-                  <span className="block">{item.label}</span>
-                  <span className="mt-1 block text-sm text-[var(--rd-text-muted)]">
-                    {item.description}
-                  </span>
-                </Link>
-              );
-            })}
+              })}
+            </nav>
           </div>
         </div>
       </div>
