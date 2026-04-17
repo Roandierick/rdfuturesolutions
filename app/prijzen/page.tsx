@@ -149,8 +149,8 @@ export default function PricingPage() {
             <Reveal>
               <InfoCard
                 icon={<ShieldIcon />}
-                title="Optie 1 — Hosting"
-                description="€10 / maand"
+                title="Optie 1 — Hosting + onderhoud"
+                description="€50 / maand"
               >
                 <ul className="space-y-3 text-sm leading-7 sm:text-base">
                   <li>Hosting van je website of app</li>
