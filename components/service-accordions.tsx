@@ -55,7 +55,9 @@ export function ServiceAccordions({ items }: ServiceAccordionsProps) {
                 className="flex w-full flex-col gap-4 text-left lg:flex-row lg:items-start lg:justify-between"
               >
                 <div className="min-w-0">
-                  <p className="mono-label">{item.number} · Dienst</p>
+                  <p className="mono-label">
+                    {item.number} {"\u00b7"} Dienst
+                  </p>
                   <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)]">{item.title}</h2>
                 </div>
 
@@ -86,7 +88,7 @@ export function ServiceAccordions({ items }: ServiceAccordionsProps) {
                           key={feature}
                           className="flex items-start gap-3 text-sm leading-7 text-[var(--rd-text-body)] sm:text-base"
                         >
-                          <span className="mt-0.5 text-[var(--rd-blue)]">→</span>
+                          <span className="mt-0.5 text-[var(--rd-blue)]">{"\u2192"}</span>
                           <span>{feature}</span>
                         </li>
                       ))}

@@ -109,4 +109,18 @@ export const serviceSchemas = [
     description:
       "Dashboards, automatiseringstools en interne platformen op maat voor bedrijven in Vlaanderen die meer nodig hebben dan standaardsoftware.",
   },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "AI Integraties in Vlaanderen",
+    serviceType: "AI-chatbots, AI-automatisering en AI-integraties op maat",
+    provider: {
+      "@type": "LocalBusiness",
+      name: siteConfig.name,
+      url: siteConfig.siteUrl,
+    },
+    areaServed: siteConfig.areaServed,
+    description:
+      "AI-integraties op maat voor KMO's en zelfstandigen in Vlaanderen, van chatbots en automatisering tot intelligente data-analyse en praktische AI-tools.",
+  },
 ];

@@ -1,12 +1,29 @@
 import { ButtonLink } from "@/components/button-link";
 import { FaqAccordion } from "@/components/faq-accordion";
-import { AnalyticsIcon, GlobeIcon, MobileIcon, ShieldIcon, SoftwareIcon } from "@/components/icons";
+import {
+  AnalyticsIcon,
+  CheckIcon,
+  GlobeIcon,
+  MobileIcon,
+  ShieldIcon,
+  SoftwareIcon,
+} from "@/components/icons";
 import { InfoCard } from "@/components/info-card";
 import { PageHero } from "@/components/page-hero";
 import { PageLinks } from "@/components/page-links";
 import { PricingCard } from "@/components/pricing-card";
 import { SectionHeading } from "@/components/section-heading";
 import { createMetadata } from "@/lib/seo";
+
+const aiFeatures = [
+  "AI-chatbot op maat voor klantenservice of interne ondersteuning",
+  "Automatisering van repetitieve bedrijfsprocessen met AI",
+  "Integratie van AI in bestaande websites, apps of software",
+  "Intelligente data-analyse en rapportage",
+  "OpenAI, Anthropic en andere AI-provider integraties",
+  "Persoonlijke begeleiding en training voor jouw team",
+  "Verplicht onderhoudsabonnement: \u20ac110/maand (monitoring, updates, optimalisatie)",
+] as const;
 
 const faqItems = [
   {
@@ -42,7 +59,7 @@ const faqItems = [
   {
     question: "Werk je ook buiten Diest, in de rest van Vlaanderen?",
     answer:
-      "Ja. RD Future Solutions is gevestigd in Diest, maar werkt voor klanten in heel Vlaanderen via online meetings, efficiënte communicatie en duidelijke projectplanning.",
+      "Ja. RD Future Solutions is gevestigd in Diest, maar werkt voor klanten in heel Vlaanderen via online meetings, effici\u00ebnte communicatie en duidelijke projectplanning.",
   },
 ] as const;
 
@@ -51,6 +68,11 @@ export const metadata = createMetadata({
   description:
     "Ontdek de prijzen van RD Future Solutions voor websites, hosting en maatwerksoftware in Vlaanderen. Transparant, helder en zonder verborgen kosten.",
   path: "/prijzen",
+  keywords: [
+    "AI integratie prijs",
+    "chatbot laten maken prijs",
+    "AI automatisering kosten",
+  ],
 });
 
 export default function PricingPage() {
@@ -86,10 +108,10 @@ export default function PricingPage() {
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
             <PricingCard
               title="Starter"
-              price="Vanaf €600"
+              price={"Vanaf \u20ac600"}
               description="Voor een landingspagina of compacte website die snel online moet staan."
               features={[
-                "Landingspagina of 1–3 pagina's",
+                "Landingspagina of 1\u20133 pagina's",
                 "Responsief design",
                 "Contactformulier",
                 "Basis-SEO",
@@ -99,7 +121,7 @@ export default function PricingPage() {
 
             <PricingCard
               title="Professioneel"
-              price="€1.200 – €2.500"
+              price={"\u20ac1.200 \u2013 \u20ac2.500"}
               description="Voor groeigerichte bedrijven die meer content, SEO en flexibiliteit nodig hebben."
               badge="Meest gekozen"
               highlighted
@@ -114,7 +136,7 @@ export default function PricingPage() {
 
             <PricingCard
               title="Maatwerk"
-              price="Op aanvraag, vanaf €2.500"
+              price={"Op aanvraag, vanaf \u20ac2.500"}
               description="Voor grotere websites, webshops of trajecten met specifieke technische vereisten."
               features={[
                 "Onbeperkte pagina's",
@@ -123,6 +145,45 @@ export default function PricingPage() {
                 "Volledig op maat uitgewerkt",
               ]}
             />
+          </div>
+        </div>
+      </section>
+
+      <section className="pb-6">
+        <div className="section-shell">
+          <SectionHeading eyebrow="AI & automatisering" title="AI Integraties" />
+
+          <div className="mt-10 rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-[rgba(123,53,232,0.03)] p-6 sm:p-8 lg:p-10">
+            <p className="bg-[image:var(--rd-gradient)] bg-clip-text font-mono text-[0.72rem] uppercase tracking-[0.16em] text-transparent">
+              AI EXPERT
+            </p>
+            <h3 className="mt-4 text-[1.35rem]">AI Integraties op maat</h3>
+            <p className="gradient-text mt-4 font-display text-[clamp(2.2rem,4vw,3.4rem)] font-bold leading-none">
+              Vanaf {"\u20ac"}2.000
+            </p>
+            <p className="mt-3 text-base leading-8 text-[var(--rd-text-body)]">
+              + verplicht onderhoudsabonnement {"\u20ac"}110/maand
+            </p>
+
+            <ul className="mt-8 grid gap-4 md:grid-cols-2">
+              {aiFeatures.map((feature) => (
+                <li key={feature} className="flex items-start gap-3 text-sm leading-7 sm:text-base">
+                  <span className="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]">
+                    <CheckIcon className="h-4 w-4" />
+                  </span>
+                  <span className="text-[var(--rd-text-body)]">{feature}</span>
+                </li>
+              ))}
+            </ul>
+
+            <p className="mt-6 text-sm leading-7 text-[var(--rd-text-muted)] sm:text-base">
+              Het maandelijkse onderhoudsabonnement is verplicht en omvat monitoring, updates,
+              beveiligingspatches en continue AI-optimalisatie.
+            </p>
+
+            <div className="mt-8">
+              <ButtonLink href="/contact">Vraag een vrijblijvende offerte aan</ButtonLink>
+            </div>
           </div>
         </div>
       </section>
@@ -139,8 +200,8 @@ export default function PricingPage() {
             <InfoCard
               icon={<ShieldIcon />}
               accent="purple"
-              title="Optie 1 — Hosting + onderhoud"
-              description="€50 / maand"
+              title={"Optie 1 \u2014 Hosting + onderhoud"}
+              description={"\u20ac50 / maand"}
             >
               <ul className="space-y-3 text-sm leading-7 sm:text-base">
                 <li>Hosting van je website of app</li>
@@ -153,8 +214,8 @@ export default function PricingPage() {
             <InfoCard
               icon={<AnalyticsIcon />}
               accent="purple"
-              title="Optie 2 — Hosting + Google Ads ondersteuning"
-              description="Vanaf €250 / maand"
+              title={"Optie 2 \u2014 Hosting + Google Ads ondersteuning"}
+              description={"Vanaf \u20ac250 / maand"}
             >
               <ul className="space-y-3 text-sm leading-7 sm:text-base">
                 <li>Alles van Optie 1</li>

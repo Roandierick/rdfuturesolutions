@@ -46,7 +46,15 @@ const storyMoments = [
   },
 ] as const;
 
-const techStack = ["Next.js", "React", "React Native", "TypeScript", "Supabase"] as const;
+const techStack = [
+  "Next.js",
+  "React",
+  "React Native",
+  "TypeScript",
+  "Supabase",
+  "AI-integraties",
+  "Prompt engineering",
+] as const;
 
 export const metadata = createMetadata({
   title: "Over ons",
@@ -102,6 +110,16 @@ export default function AboutPage() {
                 ))}
               </div>
 
+              <p className="mt-8 text-base leading-8 text-[var(--rd-text-body)] sm:text-lg">
+                De afgelopen jaren verdiepte Roan zich intensief in artifici&euml;le intelligentie
+                &mdash; van large language models en prompt engineering tot praktische
+                API-integraties met OpenAI en Anthropic. Wat begon als persoonlijke fascinatie
+                groeide uit tot een volwaardige expertise. Vandaag helpt hij bedrijven in
+                Vlaanderen om AI niet als buzzword, maar als concreet werkinstrument in te zetten:
+                slimmer communiceren met klanten, repetitieve taken automatiseren en betere
+                beslissingen nemen op basis van data.
+              </p>
+
               <div className="mt-10 border-t border-[var(--rd-border)] pt-8">
                 <p className="mono-label">Tech stack</p>
                 <div className="mt-4 flex flex-wrap gap-3">
@@ -116,7 +134,7 @@ export default function AboutPage() {
                 </div>
 
                 <p className="mt-6 font-mono text-xs uppercase tracking-[0.14em] text-[var(--rd-text-muted)]">
-                  {siteConfig.city} · {siteConfig.region} · KBO {siteConfig.kboDisplay}
+                  {siteConfig.city} &middot; {siteConfig.region} &middot; KBO {siteConfig.kboDisplay}
                 </p>
               </div>
             </div>

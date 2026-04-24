@@ -1,15 +1,15 @@
 export const siteConfig = {
   name: "RD Future Solutions",
   description:
-    "Professionele websites, apps en software op maat voor KMO's en ondernemers in Vlaanderen.",
+    "RD Future Solutions bouwt professionele websites, apps, software en AI-integraties op maat voor KMO's en zelfstandigen in Vlaanderen. Gevestigd in Diest, actief in heel Vlaanderen.",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rdfs.be",
   email: "info@rdfuturesolutions.be",
   phone: "+32468414555",
   phoneDisplay: "+32 468 41 45 55",
   city: "Diest",
   region: "Vlaams-Brabant",
-  country: "België",
-  addressDisplay: "Diest, Vlaams-Brabant, België",
+  country: "Belgi\u00eb",
+  addressDisplay: "Diest, Vlaams-Brabant, Belgi\u00eb",
   areaServed: "Vlaanderen",
   vatId: "BE1027147747",
   kboDisplay: "1027.147.747",

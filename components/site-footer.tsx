@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { InstagramIcon, LinkedInIcon, MailIcon, PhoneIcon } from "@/components/icons";
+import { MailIcon, PhoneIcon } from "@/components/icons";
 import { SiteLogo } from "@/components/site-logo";
 import { navigation, siteConfig } from "@/lib/site";
 
@@ -14,25 +14,10 @@ export function SiteFooter() {
               Professionele digitale oplossingen voor Vlaanderen.
             </p>
             <p className="mt-6 max-w-md text-sm leading-7 text-white/58 sm:text-base">
-              {siteConfig.name} · {siteConfig.city}, {siteConfig.region} · KBO {siteConfig.kboDisplay} ·{" "}
-              {siteConfig.phoneDisplay} · {siteConfig.email}
+              {siteConfig.name} {"\u00b7"} {siteConfig.city}, {siteConfig.region} {"\u00b7"} KBO{" "}
+              {siteConfig.kboDisplay} {"\u00b7"} {siteConfig.phoneDisplay} {"\u00b7"}{" "}
+              {siteConfig.email}
             </p>
-            <div className="mt-6 flex items-center gap-3">
-              <Link
-                href="#"
-                aria-label="LinkedIn profiel van RD Future Solutions"
-                className="inline-flex h-11 w-11 items-center justify-center border border-white/12 text-white/72 transition hover:border-white/30 hover:text-white"
-              >
-                <LinkedInIcon />
-              </Link>
-              <Link
-                href="#"
-                aria-label="Instagram profiel van RD Future Solutions"
-                className="inline-flex h-11 w-11 items-center justify-center border border-white/12 text-white/72 transition hover:border-white/30 hover:text-white"
-              >
-                <InstagramIcon />
-              </Link>
-            </div>
           </div>
 
           <div className="min-w-0">
@@ -77,7 +62,7 @@ export function SiteFooter() {
 
       <div className="border-t border-white/8">
         <div className="section-shell flex flex-col gap-3 py-5 text-sm text-white/52 md:flex-row md:items-center md:justify-between">
-          <p>© 2025 RD Future Solutions. Alle rechten voorbehouden.</p>
+          <p>{"\u00a9"} 2026 RD Future Solutions. Alle rechten voorbehouden.</p>
           <p>KBO {siteConfig.kboDisplay}</p>
         </div>
       </div>

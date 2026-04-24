@@ -12,6 +12,19 @@ import { ServiceAccordions } from "@/components/service-accordions";
 import { StructuredData } from "@/components/structured-data";
 import { createMetadata, serviceSchemas } from "@/lib/seo";
 
+const aiDescription =
+  "Artifici\u00eble intelligentie is niet langer voorbehouden aan grote bedrijven. RD Future Solutions helpt KMO's en zelfstandigen in Vlaanderen om slimme AI-oplossingen te integreren in hun dagelijkse werking \u2014 van geautomatiseerde klantenservice tot intelligente data-analyse en op maat gemaakte AI-tools. Roan Dierick verdiepte zich de afgelopen jaren intensief in AI-technologie\u00ebn en vertaalt die kennis naar praktische, betaalbare oplossingen voor jouw bedrijf.";
+
+const aiFeatures = [
+  "AI-chatbot op maat voor klantenservice of interne ondersteuning",
+  "Automatisering van repetitieve bedrijfsprocessen met AI",
+  "Integratie van AI in bestaande websites, apps of software",
+  "Intelligente data-analyse en rapportage",
+  "OpenAI, Anthropic en andere AI-provider integraties",
+  "Persoonlijke begeleiding en training voor jouw team",
+  "Verplicht onderhoudsabonnement: \u20ac110/maand (monitoring, updates, optimalisatie)",
+] as const;
+
 const serviceItems = [
   {
     number: "01",
@@ -106,8 +119,18 @@ const processSteps = [
 export const metadata = createMetadata({
   title: "Diensten",
   description:
-    "Website laten maken in Vlaanderen, app laten bouwen of software op maat ontwikkelen? Bekijk de diensten van RD Future Solutions.",
+    "RD Future Solutions bouwt websites, apps, software en AI-integraties op maat voor KMO's in Vlaanderen. Ontdek onze diensten en prijzen.",
   path: "/diensten",
+  keywords: [
+    "AI integratie bedrijf",
+    "AI integraties vlaanderen",
+    "artifici\u00eble intelligentie bedrijf",
+    "chatbot laten maken",
+    "AI automatisering kmo",
+    "AI oplossingen vlaanderen",
+    "AI expert belgie",
+    "chatbot website integreren",
+  ],
 });
 
 export default function ServicesPage() {
@@ -124,6 +147,63 @@ export default function ServicesPage() {
       />
 
       <ServiceAccordions items={serviceItems} />
+
+      <section className="border-b border-[var(--rd-border)] bg-[rgba(123,53,232,0.04)]">
+        <div className="section-shell py-10 md:py-12">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,0.32fr)] lg:gap-10">
+            <div className="min-w-0">
+              <span className="inline-flex rounded-[4px] bg-[rgba(123,53,232,0.1)] px-2 py-1 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[var(--rd-purple)]">
+                Nieuw
+              </span>
+              <p className="mono-label mt-6 text-[var(--rd-purple)]">04 &middot; AI INTEGRATIES</p>
+              <h2 className="mt-4 text-[clamp(1.9rem,4vw,3rem)]">AI integreren in jouw bedrijf</h2>
+
+              <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--rd-text-body)] sm:text-lg">
+                {aiDescription}
+              </p>
+
+              <ul className="mt-8 space-y-4">
+                {aiFeatures.map((feature) => (
+                  <li
+                    key={feature}
+                    className="flex items-start gap-3 text-sm leading-7 text-[var(--rd-text-body)] sm:text-base"
+                  >
+                    <span className="mt-0.5 text-[var(--rd-purple)]">&rarr;</span>
+                    <span>{feature}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mt-6 text-sm italic leading-7 text-[var(--rd-text-body)] sm:text-base">
+                Het onderhoudsabonnement van &euro;110/maand is verplicht bij elk
+                AI-integratieproject en dekt monitoring, updates en continue optimalisatie.
+              </p>
+
+              <div className="mt-8">
+                <ButtonLink href="/contact">Vraag een AI-consult aan</ButtonLink>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white p-5">
+                <p className="mono-label text-[var(--rd-purple)]">Voor wie</p>
+                <p className="mt-3 text-sm leading-7 sm:text-base">
+                  Voor KMO&apos;s en zelfstandigen in Vlaanderen die AI willen integreren in hun
+                  bedrijfsprocessen en een praktische, betaalbare aanpak zoeken.
+                </p>
+              </div>
+
+              <div className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white p-5">
+                <p className="mono-label text-[var(--rd-purple)]">Prijs</p>
+                <p className="mt-3 text-sm leading-7 sm:text-base">
+                  Vanaf &euro;2.000 eenmalig, met een verplicht onderhoudsabonnement van
+                  &nbsp;&euro;110/maand voor monitoring, updates en optimalisatie.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="section-space rd-soft-section">
         <div className="section-shell">

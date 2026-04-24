@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { ButtonLink } from "@/components/button-link";
-import { ClockIcon, HandshakeIcon, LocationIcon } from "@/components/icons";
+import { ClockIcon, HandshakeIcon, LocationIcon, SparkIcon } from "@/components/icons";
 import { PricingCard } from "@/components/pricing-card";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
-import { createMetadata, localBusinessSchema } from "@/lib/seo";
+import { createMetadata, localBusinessSchema, serviceSchemas } from "@/lib/seo";
 
 const services = [
   {
@@ -58,21 +58,32 @@ const founderHighlights = [
     title: "5+ jaar ervaring",
     description: "Roan Dierick, oprichter, 20 jaar en meer dan 5 jaar praktijkervaring.",
     icon: <ClockIcon />,
+    accent: "blue",
   },
   {
     title: "Actief in Vlaanderen",
     description: "Gevestigd in Diest en actief voor klanten in heel Vlaanderen.",
     icon: <LocationIcon />,
+    accent: "blue",
   },
   {
     title: "Directe communicatie",
     description: "Geen groot bureau, wel directe communicatie zonder tussenpersonen.",
     icon: <HandshakeIcon />,
+    accent: "blue",
   },
   {
     title: "Snelle oplevering",
     description: "Snelle oplevering, transparante samenwerking en heldere planning.",
     icon: <ClockIcon />,
+    accent: "blue",
+  },
+  {
+    title: "AI-expertise",
+    description:
+      "Roan verdiepte zich de afgelopen jaren intensief in artifici\u00eble intelligentie en helpt bedrijven om AI praktisch in te zetten.",
+    icon: <SparkIcon />,
+    accent: "purple",
   },
 ] as const;
 
@@ -82,17 +93,17 @@ const extraFounderHighlight =
 const priceTeasers = [
   {
     title: "Starter",
-    price: "Vanaf €600",
+    price: "Vanaf \u20ac600",
     details: "Voor een landingspagina of compacte website die snel live moet staan.",
   },
   {
     title: "Professioneel",
-    price: "€1.200 – €2.500",
+    price: "\u20ac1.200 \u2013 \u20ac2.500",
     details: "Voor bedrijven die meer pagina's, SEO en een CMS-integratie nodig hebben.",
   },
   {
     title: "Maatwerk",
-    price: "Vanaf €2.500",
+    price: "Vanaf \u20ac2.500",
     details: "Voor grotere websites, webshops en projecten met complexe functionaliteiten.",
   },
 ] as const;
@@ -107,14 +118,14 @@ export const metadata = createMetadata({
 export default function HomePage() {
   return (
     <>
-      <StructuredData data={localBusinessSchema} />
+      <StructuredData data={[localBusinessSchema, ...serviceSchemas]} />
 
       <section className="relative isolate flex min-h-[calc(100vh-6rem)] items-center overflow-hidden md:min-h-[calc(100vh-7rem)]">
         <div className="section-shell relative py-10 md:py-14 lg:py-20">
           <div className="grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)] lg:items-center lg:gap-14">
             <div className="min-w-0">
               <div className="space-y-3">
-                <p className="mono-label">WEBBUREAU · DIEST · VLAANDEREN</p>
+                <p className="mono-label">WEBBUREAU &middot; DIEST &middot; VLAANDEREN</p>
                 <p className="text-sm leading-7 text-[var(--rd-text-muted)]">
                   Webdesign, apps en software op maat vanuit Diest
                 </p>
@@ -230,6 +241,73 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+
+          <div className="mt-8 max-w-2xl">
+            <Link
+              href="/diensten"
+              className="rd-card block border-l-[3px] border-l-[var(--rd-purple)] bg-[rgba(123,53,232,0.04)] p-6 transition hover:border-l-[var(--rd-purple)] sm:p-7"
+            >
+              <span className="inline-flex rounded-[4px] bg-[rgba(123,53,232,0.1)] px-2 py-1 font-mono text-[0.7rem] uppercase tracking-[0.15em] text-[var(--rd-purple)]">
+                Nieuw
+              </span>
+              <span className="mt-5 inline-flex h-12 w-12 items-center justify-center bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]">
+                <SparkIcon />
+              </span>
+              <h3 className="mt-5">AI Integraties</h3>
+              <p className="mt-3 text-sm leading-7 sm:text-base">
+                Slimme AI-oplossingen ge&iuml;ntegreerd in jouw bedrijfsprocessen. Van chatbots tot
+                automatisering.
+              </p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section
+        className="section-space"
+        style={{
+          backgroundColor: "rgba(123,53,232,0.04)",
+          backgroundImage: "radial-gradient(circle, rgba(41,82,204,0.06) 1px, transparent 1px)",
+          backgroundSize: "28px 28px",
+        }}
+      >
+        <div className="section-shell">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)] lg:items-start">
+            <div className="min-w-0">
+              <p className="mono-label text-[var(--rd-purple)]">AI & AUTOMATISERING</p>
+              <h2 className="mt-4">Jouw bedrijf, slimmer gemaakt met AI</h2>
+              <p className="mt-5 max-w-3xl text-base leading-8 text-[var(--rd-text-body)] sm:text-lg">
+                Artifici&euml;le intelligentie biedt ongekende mogelijkheden voor bedrijven van elke
+                omvang. RD Future Solutions helpt je om die mogelijkheden concreet en betaalbaar te
+                maken &mdash; van een slimme chatbot die je klantenservice versterkt tot volledige
+                procesautomatisering.
+              </p>
+            </div>
+
+            <div className="lg:pt-2">
+              <ButtonLink href="/diensten">Ontdek onze AI-diensten</ButtonLink>
+            </div>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            <div className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white p-6">
+              <p className="mono-label text-[var(--rd-purple)]">Wat wij doen met AI</p>
+              <ul className="mt-5 space-y-3 text-sm leading-7 text-[var(--rd-text-body)] sm:text-base">
+                <li>AI-chatbots voor klantenservice of interne ondersteuning</li>
+                <li>Procesautomatisering voor repetitieve workflows</li>
+                <li>AI-integraties in bestaande websites, apps of software</li>
+              </ul>
+            </div>
+
+            <div className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white p-6">
+              <p className="mono-label text-[var(--rd-purple)]">Voor wie</p>
+              <ul className="mt-5 space-y-3 text-sm leading-7 text-[var(--rd-text-body)] sm:text-base">
+                <li>KMO&apos;s die effici&euml;nter willen werken met AI</li>
+                <li>Zelfstandigen die tijd willen winnen via automatisering</li>
+                <li>Bedrijven die AI praktisch en betaalbaar willen inzetten</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -249,13 +327,32 @@ export default function HomePage() {
           </div>
 
           <div className="mt-14 grid gap-6 md:grid-cols-2">
-            {founderHighlights.map((item) => (
-              <div key={item.title} className="rd-card border-l-[3px] border-l-[var(--rd-blue)] p-6">
-                <span className="rd-icon-square">{item.icon}</span>
-                <h3 className="mt-6">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 sm:text-base">{item.description}</p>
-              </div>
-            ))}
+            {founderHighlights.map((item) => {
+              const isPurple = item.accent === "purple";
+
+              return (
+                <div
+                  key={item.title}
+                  className={`rd-card border-l-[3px] p-6 ${
+                    isPurple
+                      ? "border-l-[var(--rd-purple)] bg-[rgba(123,53,232,0.04)]"
+                      : "border-l-[var(--rd-blue)]"
+                  }`}
+                >
+                  <span
+                    className={`inline-flex h-12 w-12 items-center justify-center ${
+                      isPurple
+                        ? "bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]"
+                        : "bg-[rgba(41,82,204,0.08)] text-[var(--rd-blue)]"
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+                  <h3 className="mt-6">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-7 sm:text-base">{item.description}</p>
+                </div>
+              );
+            })}
           </div>
 
           <div className="mt-6 border-l-[3px] border-l-[var(--rd-purple)] bg-[var(--rd-bg-soft)] p-6">

@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google";
-import { DotGridTrail } from "@/components/DotGridTrail";
+import DotGridTrail from "@/components/DotGridTrail";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site";
@@ -24,13 +24,16 @@ const jetBrainsMono = JetBrains_Mono({
   weight: ["400"],
 });
 
+const rootDescription =
+  "RD Future Solutions bouwt professionele websites, apps, software en AI-integraties op maat voor KMO's en zelfstandigen in Vlaanderen. Gevestigd in Diest, actief in heel Vlaanderen.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.siteUrl),
   title: {
     default: "RD Future Solutions | Websites, apps en software op maat in Vlaanderen",
     template: "%s | RD Future Solutions",
   },
-  description: siteConfig.description,
+  description: rootDescription,
   keywords: siteConfig.keywords,
   applicationName: siteConfig.name,
   verification: {
@@ -41,7 +44,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "RD Future Solutions | Websites, apps en software op maat in Vlaanderen",
-    description: siteConfig.description,
+    description: rootDescription,
     url: "/",
     siteName: siteConfig.name,
     locale: "nl_BE",
@@ -79,9 +82,9 @@ export default function RootLayout({
         className={`${playfairDisplay.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}
       >
         <DotGridTrail />
-        <div className="relative flex min-h-screen flex-col overflow-x-clip">
+        <div className="relative z-[1] flex min-h-screen flex-col overflow-x-clip">
           <SiteHeader />
-          <main className="flex-1 overflow-x-clip pt-24 md:pt-28">{children}</main>
+          <main className="relative z-[1] flex-1 overflow-x-clip pt-24 md:pt-28">{children}</main>
           <SiteFooter />
         </div>
       </body>
