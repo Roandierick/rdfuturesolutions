@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { buttonClassName } from "@/components/button-link";
 import { MailIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
+import { cn } from "@/lib/utils";
 
 type FormState = {
   naam: string;
@@ -74,22 +75,25 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rd-card w-full p-5 sm:p-6 lg:p-8">
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <form onSubmit={handleSubmit} className="rd-card border-l-[3px] border-l-[var(--rd-blue)] p-6 md:p-8">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-2 block text-sm font-medium text-[var(--rd-text)]">Naam</span>
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">Naam</span>
           <input
-            className="rd-input"
+            className="rd-underline-input"
             name="naam"
             required
             value={formData.naam}
             onChange={(event) => updateField("naam", event.target.value)}
           />
         </label>
+
         <label className="block">
-          <span className="mb-2 block text-sm font-medium text-[var(--rd-text)]">E-mailadres</span>
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
+            E-mailadres
+          </span>
           <input
-            className="rd-input"
+            className="rd-underline-input"
             type="email"
             name="email"
             required
@@ -97,19 +101,25 @@ export function ContactForm() {
             onChange={(event) => updateField("email", event.target.value)}
           />
         </label>
+
         <label className="block">
-          <span className="mb-2 block text-sm font-medium text-[var(--rd-text)]">Telefoonnummer</span>
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
+            Telefoonnummer
+          </span>
           <input
-            className="rd-input"
+            className="rd-underline-input"
             name="telefoon"
             value={formData.telefoon}
             onChange={(event) => updateField("telefoon", event.target.value)}
           />
         </label>
+
         <label className="block">
-          <span className="mb-2 block text-sm font-medium text-[var(--rd-text)]">Type project</span>
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
+            Type project
+          </span>
           <select
-            className="rd-input"
+            className="rd-underline-input"
             name="typeProject"
             value={formData.typeProject}
             onChange={(event) => updateField("typeProject", event.target.value)}
@@ -120,10 +130,11 @@ export function ContactForm() {
             <option>Andere</option>
           </select>
         </label>
+
         <label className="block sm:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-[var(--rd-text)]">Budget</span>
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">Budget</span>
           <select
-            className="rd-input"
+            className="rd-underline-input"
             name="budget"
             value={formData.budget}
             onChange={(event) => updateField("budget", event.target.value)}
@@ -135,12 +146,13 @@ export function ContactForm() {
             <option>Nog niet zeker</option>
           </select>
         </label>
+
         <label className="block sm:col-span-2">
-          <span className="mb-2 block text-sm font-medium text-[var(--rd-text)]">
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
             Omschrijving van het project
           </span>
           <textarea
-            className="rd-input min-h-[160px] resize-y"
+            className="rd-underline-input min-h-[152px] resize-y"
             name="omschrijving"
             required
             value={formData.omschrijving}
@@ -155,7 +167,7 @@ export function ContactForm() {
         className={buttonClassName(
           "primary",
           "lg",
-          "mt-6 w-full disabled:cursor-not-allowed disabled:opacity-80",
+          "mt-8 w-full disabled:cursor-not-allowed disabled:opacity-80",
         )}
       >
         {isPending ? "Aanvraag wordt verstuurd..." : "Verstuur aanvraag"}
@@ -163,26 +175,29 @@ export function ContactForm() {
 
       {feedback ? (
         <p
-          className={`mt-4 rounded-xl px-4 py-3 text-sm leading-6 ${
+          className={cn(
+            "mt-6 border-l-[3px] px-4 py-3 text-sm leading-6",
             feedback.type === "success"
-              ? "bg-[rgba(41,82,204,0.08)] text-[var(--rd-blue)]"
-              : "bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]"
-          }`}
+              ? "border-l-[var(--rd-blue)] bg-[rgba(41,82,204,0.08)] text-[var(--rd-blue)]"
+              : "border-l-[var(--rd-purple)] bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]",
+          )}
         >
           {feedback.message}
         </p>
       ) : null}
 
-      <p className="mt-5 flex flex-col items-start gap-1 text-sm text-[var(--rd-text-muted)] sm:flex-row sm:items-center sm:gap-2">
+      <p className="mt-6 flex flex-col items-start gap-2 text-sm text-[var(--rd-text-muted)] sm:flex-row sm:items-center">
         <MailIcon className="h-4 w-4 flex-none" />
-        Liever rechtstreeks mailen? Dat kan via{" "}
-        <a
-          href={`mailto:${siteConfig.email}`}
-          className="break-all font-medium text-[var(--rd-blue)] hover:underline"
-        >
-          {siteConfig.email}
-        </a>
-        .
+        <span>
+          Liever rechtstreeks mailen? Dat kan via{" "}
+          <a
+            href={`mailto:${siteConfig.email}`}
+            className="font-medium text-[var(--rd-blue)] hover:underline"
+          >
+            {siteConfig.email}
+          </a>
+          .
+        </span>
       </p>
     </form>
   );

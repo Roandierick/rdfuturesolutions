@@ -2,6 +2,24 @@
 
 Productieklaar Next.js 14-project voor RD Future Solutions, een Belgische web-, app- en softwarepartner uit Diest.
 
+## Design System
+
+De visuele laag is opgebouwd als een premium light editorial systeem:
+
+- `Playfair Display` voor H1/H2
+- `DM Sans` voor body, navigatie en CTA's
+- `JetBrains Mono` voor labels, sectienummers en technische details
+- Witte en lichtgrijze basis met vaste RD-kleurtokens in `app/globals.css`
+- Alleen decoratieve achtergrondanimaties via CSS en `components/hero-background.tsx`
+- Geen content reveal-animaties: alle tekst en UI zijn meteen zichtbaar bij het laden
+
+Belangrijke design primitives:
+
+- `app/globals.css` bevat spacing, kleuren, buttons, kaarten, dot-grid textuur en hero-animaties
+- `components/page-hero.tsx` levert de gedeelde page hero-opbouw
+- `components/site-header.tsx` bevat sticky navigatie, glass state op scroll en mobiel overlaymenu
+- `components/service-accordions.tsx` en `components/faq-accordion.tsx` verzorgen de interactieve secties
+
 ## Installatie
 
 Installeer de dependencies:
@@ -51,8 +69,6 @@ Voor de favicon:
 public/favicon.ico
 ```
 
-Gebruik bij voorkeur een favicon die gemaakt is op basis van het logo, bijvoorbeeld via `realfavicongenerator.net`.
-
 ## Resend
 
 De contactroute gebruikt de officiële `resend` SDK. De afzender staat standaard ingesteld op `onboarding@resend.dev` voor development. Voor productie vervang je die best door een geverifieerd domein in `app/api/contact/route.ts`.
@@ -66,7 +82,7 @@ De contactroute gebruikt de officiële `resend` SDK. De afzender staat standaard
 
 ## Structuur
 
-- `app/` bevat alle pagina's en de API-route
-- `components/` bevat alle herbruikbare UI-componenten
+- `app/` bevat alle pagina's, globale styles en de API-route
+- `components/` bevat de herbruikbare UI-componenten en interactieve secties
 - `lib/` bevat siteconfiguratie en SEO-helpers
 - `public/` bevat statische assets zoals logo, favicon en OG-image

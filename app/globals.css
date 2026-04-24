@@ -3,27 +3,28 @@
 @tailwind utilities;
 
 :root {
-  /* Brand colors — exact hex values, do not deviate */
-  --rd-cyan:        #00C8FF;
-  --rd-blue:        #2952CC;
-  --rd-purple:      #7B35E8;
+  --rd-cyan: #00c8ff;
+  --rd-blue: #2952cc;
+  --rd-purple: #7b35e8;
 
-  /* Gradient — used on CTAs, badges, highlights */
-  --rd-gradient: linear-gradient(135deg, #00C8FF 0%, #2952CC 50%, #7B35E8 100%);
+  --rd-gradient: linear-gradient(135deg, #00c8ff 0%, #2952cc 50%, #7b35e8 100%);
+  --rd-gradient-soft: linear-gradient(
+    135deg,
+    rgba(0, 200, 255, 0.08) 0%,
+    rgba(123, 53, 232, 0.08) 100%
+  );
 
-  /* Backgrounds — WHITE site */
-  --rd-bg:          #FFFFFF;
-  --rd-bg-soft:     #F5F7FF;
-  --rd-bg-card:     #FFFFFF;
+  --rd-bg: #ffffff;
+  --rd-bg-soft: #f4f6fb;
+  --rd-bg-card: #ffffff;
 
-  /* Text */
-  --rd-text:        #0F1526;
-  --rd-text-body:   #3D4A6B;
-  --rd-text-muted:  #7A87A8;
+  --rd-text: #0a0e1f;
+  --rd-text-body: #3d4a6b;
+  --rd-text-muted: #7a87a8;
 
-  /* Borders */
-  --rd-border:      #E2E7F5;
-  --rd-border-accent: rgba(41, 82, 204, 0.2);
+  --rd-border: #e2e7f5;
+  --rd-border-blue: rgba(41, 82, 204, 0.2);
+  --rd-black: #0a0e1f;
 }
 
 @layer base {
@@ -33,32 +34,64 @@
 
   html {
     scroll-behavior: smooth;
+    background: var(--rd-bg);
   }
 
   body {
     background: var(--rd-bg);
     color: var(--rd-text-body);
     font-family: var(--font-body), sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
     overflow-x: hidden;
+    text-rendering: optimizeLegibility;
   }
 
   h1,
-  h2,
+  h2 {
+    font-family: var(--font-display), serif;
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  h1 {
+    color: var(--rd-black);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1.05;
+  }
+
+  h2 {
+    color: var(--rd-text);
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+  }
+
   h3 {
     color: var(--rd-text);
-    font-family: var(--font-heading), sans-serif;
-    letter-spacing: -0.03em;
+    font-family: var(--font-body), sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  p,
+  li,
+  label,
+  input,
+  textarea,
+  select,
+  button,
+  a {
+    font-family: var(--font-body), sans-serif;
   }
 
   p {
     color: var(--rd-text-body);
   }
 
-  ::selection {
-    background: rgba(41, 82, 204, 0.16);
-    color: var(--rd-text);
-  }
-
+  button,
   input,
   textarea,
   select {
@@ -72,51 +105,80 @@
     max-width: 100%;
     height: auto;
   }
+
+  ::selection {
+    background: rgba(41, 82, 204, 0.16);
+    color: var(--rd-text);
+  }
 }
 
 @layer components {
   .section-shell {
-    @apply mx-auto w-full max-w-7xl px-4 md:px-8;
+    @apply mx-auto w-full max-w-[90rem] px-4 md:px-12 lg:px-20;
   }
 
   .section-space {
-    @apply py-14 sm:py-16 lg:py-24;
+    @apply py-16 md:py-20 lg:py-24;
+  }
+
+  .section-divider {
+    @apply h-px w-full bg-[var(--rd-border)];
+  }
+
+  .mono-label {
+    font-family: var(--font-mono), monospace;
+    font-size: 0.7rem;
+    line-height: 1.4;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--rd-blue);
+  }
+
+  .gradient-text {
+    background: var(--rd-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .rd-soft-section {
+    background-color: rgba(244, 246, 251, 0.88);
   }
 
   .rd-card {
     background: var(--rd-bg-card);
     border: 1px solid var(--rd-border);
-    border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(41,82,204,0.07);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  }
-
-  .rd-card:hover {
-    box-shadow: 0 4px 24px rgba(41,82,204,0.13);
-    transform: translateY(-2px);
+    box-shadow: 0 2px 20px rgba(41, 82, 204, 0.06);
   }
 
   .rd-button {
-    @apply inline-flex w-full items-center justify-center gap-2 rounded-[8px] text-center font-medium transition duration-200 sm:w-auto sm:whitespace-nowrap;
+    @apply inline-flex items-center justify-center gap-2 whitespace-nowrap text-center font-semibold transition duration-200;
+    border-radius: 999px;
+    min-height: 48px;
   }
 
-  .rd-button:hover {
-    transform: translateY(-1px);
+  .rd-button:focus-visible {
+    outline: 2px solid rgba(41, 82, 204, 0.24);
+    outline-offset: 3px;
   }
 
   .rd-button-primary {
     background: var(--rd-gradient);
-    border: none;
     color: #ffffff;
-    box-shadow: 0 10px 30px rgba(41,82,204,0.16);
-    font-weight: 600;
+    box-shadow: 0 16px 36px rgba(41, 82, 204, 0.14);
+  }
+
+  .rd-button-primary:hover {
+    box-shadow:
+      0 16px 36px rgba(41, 82, 204, 0.16),
+      0 0 32px rgba(123, 53, 232, 0.25);
   }
 
   .rd-button-secondary {
     background: #ffffff;
-    border: 2px solid var(--rd-blue);
+    border: 1px solid var(--rd-blue);
     color: var(--rd-blue);
-    font-weight: 600;
   }
 
   .rd-button-ghost {
@@ -125,40 +187,50 @@
     color: var(--rd-text);
   }
 
-  .gradient-text {
-    background: var(--rd-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    color: transparent;
-  }
-
-  .icon-chip {
-    @apply inline-flex h-12 w-12 items-center justify-center rounded-full;
-    background: rgba(41,82,204,0.08);
+  .rd-icon-square {
+    @apply inline-flex items-center justify-center;
+    height: 3rem;
+    width: 3rem;
+    flex: none;
+    background: rgba(41, 82, 204, 0.08);
     color: var(--rd-blue);
   }
 
-  .rd-input {
-    @apply w-full rounded-xl border px-4 py-3 text-sm outline-none transition sm:text-base;
-    border-color: var(--rd-border);
-    background: #ffffff;
+  .rd-underline-input {
+    @apply w-full bg-transparent pb-3 pt-2 outline-none transition;
+    border-bottom: 1px solid var(--rd-border);
     color: var(--rd-text);
-    box-shadow: 0 1px 2px rgba(15, 21, 38, 0.02);
+    border-radius: 0;
   }
 
-  .rd-input:focus {
-    border-color: var(--rd-blue);
-    box-shadow: 0 0 0 4px rgba(41,82,204,0.12);
+  .rd-underline-input:focus {
+    border-bottom-color: var(--rd-blue);
+  }
+
+  .scroll-dot {
+    height: 0.5rem;
+    width: 0.5rem;
+    border-radius: 999px;
+    background: var(--rd-blue);
+  }
+
+  .site-header {
+    background: rgba(255, 255, 255, 1);
+    transition:
+      background 0.3s ease,
+      backdrop-filter 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .site-header.scrolled {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(226, 231, 245, 1);
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
-  }
-
-  .bg-rd-gradient {
-    background: var(--rd-gradient);
   }
 }

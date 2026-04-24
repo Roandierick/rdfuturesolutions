@@ -10,7 +10,7 @@ type FaqItem = {
 };
 
 type FaqAccordionProps = {
-  items: FaqItem[];
+  items: readonly FaqItem[];
 };
 
 export function FaqAccordion({ items }: FaqAccordionProps) {
@@ -22,34 +22,38 @@ export function FaqAccordion({ items }: FaqAccordionProps) {
         const isOpen = openIndex === index;
 
         return (
-          <div key={item.question} className="rd-card overflow-hidden">
+          <div
+            key={item.question}
+            className="rd-card overflow-hidden border-l-[3px] border-l-[var(--rd-blue)] bg-white"
+          >
             <button
               type="button"
               onClick={() => setOpenIndex(isOpen ? -1 : index)}
-              className="flex w-full items-start justify-between gap-4 px-5 py-4 text-left sm:items-center sm:gap-6 sm:px-8 sm:py-5"
+              className="flex w-full items-start justify-between gap-4 px-5 py-5 text-left sm:px-7"
               aria-expanded={isOpen}
             >
-              <span className="min-w-0 text-base font-semibold text-[var(--rd-text)] sm:text-lg">
-                {item.question}
+              <span className="min-w-0">
+                <span className="mono-label">{String(index + 1).padStart(2, "0")}</span>
+                <span className="mt-3 block text-base font-semibold text-[var(--rd-text)] sm:text-lg">
+                  {item.question}
+                </span>
               </span>
+
               <ChevronDownIcon
                 className={cn(
-                  "h-5 w-5 flex-none text-[var(--rd-blue)] transition-transform duration-200",
+                  "mt-1 h-5 w-5 flex-none text-[var(--rd-blue)] transition duration-300",
                   isOpen && "rotate-180",
                 )}
               />
             </button>
+
             <div
               className={cn(
-                "grid transition-[grid-template-rows] duration-300 ease-out",
-                isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                "overflow-hidden px-5 transition-[max-height] duration-300 ease-out sm:px-7",
+                isOpen ? "max-h-80 pb-6" : "max-h-0",
               )}
             >
-              <div className="overflow-hidden">
-                <p className="px-5 pb-5 text-sm leading-7 sm:px-8 sm:pb-6 sm:text-base">
-                  {item.answer}
-                </p>
-              </div>
+              <p className="text-sm leading-7 sm:text-base">{item.answer}</p>
             </div>
           </div>
         );

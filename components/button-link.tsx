@@ -21,9 +21,9 @@ export function buttonClassName(
 ) {
   return cn(
     "rd-button",
-    size === "sm" && "px-4 py-2 text-sm",
-    size === "md" && "px-5 py-3 text-sm sm:text-base",
-    size === "lg" && "px-5 py-3.5 text-sm sm:px-6 sm:text-base",
+    size === "sm" && "min-h-[44px] px-4 py-2.5 text-sm",
+    size === "md" && "min-h-[48px] px-5 py-3 text-sm sm:text-base",
+    size === "lg" && "min-h-[52px] px-6 py-3.5 text-sm sm:px-7 sm:text-base",
     variant === "primary" && "rd-button-primary",
     variant === "secondary" && "rd-button-secondary",
     variant === "ghost" && "rd-button-ghost",
@@ -40,11 +40,7 @@ export function ButtonLink({
   ariaLabel,
 }: ButtonLinkProps) {
   return (
-    <Link
-      href={href}
-      aria-label={ariaLabel}
-      className={buttonClassName(variant, size, className)}
-    >
+    <Link href={href} aria-label={ariaLabel} className={buttonClassName(variant, size, className)}>
       {children}
     </Link>
   );

@@ -1,21 +1,27 @@
-import type { Metadata } from "next";
-import type { Viewport } from "next";
-import { DM_Sans, Syne } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { DM_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { DotGridTrail } from "@/components/DotGridTrail";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site";
 import "./globals.css";
 
-const syne = Syne({
+const playfairDisplay = Playfair_Display({
   subsets: ["latin"],
-  variable: "--font-heading",
-  weight: ["600", "700"],
+  variable: "--font-display",
+  weight: ["400", "700"],
 });
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
-  weight: ["400", "500"],
+  weight: ["400", "500", "600"],
+});
+
+const jetBrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -69,10 +75,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl-BE">
-      <body className={`${syne.variable} ${dmSans.variable} antialiased`}>
-        <div className="relative flex min-h-screen flex-col overflow-x-hidden bg-[var(--rd-bg)]">
+      <body
+        className={`${playfairDisplay.variable} ${dmSans.variable} ${jetBrainsMono.variable}`}
+      >
+        <DotGridTrail />
+        <div className="relative flex min-h-screen flex-col overflow-x-clip">
           <SiteHeader />
-          <main className="flex-1 overflow-x-clip pt-20 sm:pt-24">{children}</main>
+          <main className="flex-1 overflow-x-clip pt-24 md:pt-28">{children}</main>
           <SiteFooter />
         </div>
       </body>

@@ -1,8 +1,4 @@
-"use client";
-
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 type SiteLogoProps = {
@@ -13,66 +9,46 @@ type SiteLogoProps = {
   priority?: boolean;
 };
 
-export function SiteLogo({
-  dark = false,
-  width = 160,
-  height = 48,
-  className,
-  priority = false,
-}: SiteLogoProps) {
-  const [hasLogo, setHasLogo] = useState(false);
-
-  useEffect(() => {
-    let mounted = true;
-
-    fetch("/logo.png", { method: "HEAD" })
-      .then((response) => {
-        if (mounted) {
-          setHasLogo(response.ok);
-        }
-      })
-      .catch(() => {
-        if (mounted) {
-          setHasLogo(false);
-        }
-      });
-
-    return () => {
-      mounted = false;
-    };
-  }, []);
+export function SiteLogo(props: SiteLogoProps) {
+  const { dark = false, className } = props;
 
   return (
     <Link
       href="/"
-      className={cn("inline-flex max-w-full items-center gap-2 sm:gap-3", className)}
+      className={cn("inline-flex min-w-0 items-center gap-3", className)}
       aria-label="Ga naar de homepage van RD Future Solutions"
     >
-      {hasLogo ? (
-        <Image
-          src="/logo.png"
-          alt="RD Future Solutions logo"
-          width={width}
-          height={height}
-          priority={priority}
-          sizes={`(max-width: 640px) ${Math.min(width, 140)}px, ${width}px`}
-          className="h-auto max-w-full object-contain"
-          style={{ width: "100%", maxWidth: `${width}px`, height: "auto" }}
-          onError={() => setHasLogo(false)}
-        />
-      ) : (
-        <span className="inline-flex max-w-full items-center gap-2">
-          <span className="gradient-text text-2xl font-semibold leading-none">RD</span>
-          <span
-            className={cn(
-              "text-xs font-medium leading-tight sm:text-base",
-              dark ? "text-white" : "text-[var(--rd-text)]",
-            )}
-          >
-            Future Solutions
-          </span>
+      <span
+        className={cn(
+          "inline-flex h-12 w-12 items-center justify-center border",
+          dark
+            ? "border-white/12 bg-white/[0.05] text-white"
+            : "border-[var(--rd-border-blue)] bg-[var(--rd-gradient-soft)] text-[var(--rd-blue)]",
+        )}
+      >
+        <span
+          className={cn(
+            "font-display text-xl font-bold tracking-[-0.06em]",
+            dark ? "text-white" : "gradient-text",
+          )}
+        >
+          RD
         </span>
-      )}
+      </span>
+
+      <span className="min-w-0">
+        <span className={cn("block font-mono text-[0.68rem] uppercase tracking-[0.18em]", dark ? "text-white/55" : "text-[var(--rd-blue)]")}>
+          Webbureau
+        </span>
+        <span
+          className={cn(
+            "block text-sm font-semibold leading-tight sm:text-base",
+            dark ? "text-white" : "text-[var(--rd-text)]",
+          )}
+        >
+          RD Future Solutions
+        </span>
+      </span>
     </Link>
   );
 }
