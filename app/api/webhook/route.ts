@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
+import { createSignedDownloadUrl, DOWNLOAD_LINK_VALIDITY_MS } from "@/lib/download-links";
 import { siteConfig } from "@/lib/site";
 
 export const runtime = "nodejs";
@@ -70,7 +71,7 @@ function buildCustomerEmailHtml({
         Bedankt voor je aankoop van <strong style="color: #0F1526;">${escapeHtml(ebookTitle)}</strong>.
       </p>
       <p style="margin: 0 0 20px; color: #3D4A6B; font-size: 15px; line-height: 1.8;">
-        Je download staat meteen voor je klaar. Klik op de knop hieronder om je PDF te openen.
+        Je beveiligde downloadlink staat klaar. Deze link blijft 48 uur geldig.
       </p>
     `,
     contentHtml: `
@@ -84,8 +85,8 @@ function buildCustomerEmailHtml({
       </div>
 
       <div style="margin: 24px 0; padding: 20px; background: #F8FAFF; border: 1px solid #E2E7F5; border-radius: 14px;">
-        ${buildInfoRow("Wat krijg je?", "Directe PDF download na betaling")}
-        ${buildInfoRow("Toegang", "Levenslange toegang tot je aankoop")}
+        ${buildInfoRow("Downloadlink", "48 uur geldig")}
+        ${buildInfoRow("Toegang", "Directe PDF download na betaling")}
         ${buildInfoRow("Abonnement", "Geen abonnement of terugkerende kosten")}
       </div>
 
@@ -126,19 +127,12 @@ function buildInternalEmailHtml({
     contentHtml: `
       <div style="width: 100%;">
         ${buildInfoRow("Ebook", ebookTitle)}
-        ${buildInfoRow("Klant", customerEmail || "Niet doorgegeven")}
+        ${buildInfoRow("Klant", customerEmail || "Niet gevonden")}
         ${buildInfoRow("Downloadlink", downloadUrl)}
         ${buildInfoRow("Stripe sessie", sessionId)}
       </div>
     `,
   });
-}
-
-function getDownloadUrl(slug: string) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? siteConfig.siteUrl;
-  const normalizedSiteUrl = siteUrl.replace(/\/$/, "");
-
-  return `${normalizedSiteUrl}/downloads/${slug}.pdf`;
 }
 
 export async function POST(request: Request) {
@@ -180,15 +174,37 @@ export async function POST(request: Request) {
   try {
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
-      const customerEmail = session.customer_details?.email ?? session.customer_email ?? "";
+
+      console.log("Stripe webhook session object:", JSON.stringify(session, null, 2));
+
+      const customerEmail =
+        session.customer_details?.email ??
+        session.customer_email ??
+        session.metadata?.customer_email ??
+        "";
       const slug = session.metadata?.slug;
       const ebookTitle = session.metadata?.ebook_title ?? "Je ebook";
+
+      console.log("Stripe webhook gevonden e-mailadres:", customerEmail);
 
       if (!slug) {
         throw new Error("Ebook slug ontbreekt in Stripe metadata.");
       }
 
-      const downloadUrl = getDownloadUrl(slug);
+      if (!customerEmail) {
+        throw new Error("Geen klant e-mailadres gevonden in de Stripe sessie.");
+      }
+
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? siteConfig.siteUrl;
+      const expires = session.created
+        ? session.created * 1000 + DOWNLOAD_LINK_VALIDITY_MS
+        : Date.now() + DOWNLOAD_LINK_VALIDITY_MS;
+      const downloadUrl = createSignedDownloadUrl({
+        slug,
+        email: customerEmail,
+        expires,
+        baseUrl,
+      });
       const customerHtml = buildCustomerEmailHtml({
         ebookTitle,
         downloadUrl,
@@ -200,39 +216,33 @@ export async function POST(request: Request) {
         sessionId: session.id,
       });
 
-      const emailJobs = [
-        resend.emails.send({
-          from: FROM_EMAIL,
-          to: INTERNAL_EMAIL,
-          replyTo: siteConfig.email,
-          subject: `Nieuwe ebook verkoop — ${ebookTitle}`,
-          html: internalHtml,
-        }),
-      ];
-
-      if (customerEmail) {
-        emailJobs.push(
-          resend.emails.send({
-            from: FROM_EMAIL,
-            to: customerEmail,
-            replyTo: siteConfig.email,
-            subject: `Je download is klaar — ${ebookTitle}`,
-            html: customerHtml,
-          }),
-        );
-      }
-
-      const sendResults = await Promise.allSettled(emailJobs);
-      const hasFailedSend = sendResults.some((result) => {
-        if (result.status === "rejected") {
-          return true;
-        }
-
-        return Boolean(result.value.error);
+      const internalResult = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: INTERNAL_EMAIL,
+        replyTo: siteConfig.email,
+        subject: `Nieuwe ebook verkoop — ${ebookTitle}`,
+        html: internalHtml,
       });
 
-      if (hasFailedSend) {
-        throw new Error(`Webhook e-mailverzending mislukt: ${JSON.stringify(sendResults)}`);
+      console.log("Resend internal result:", JSON.stringify(internalResult, null, 2));
+
+      const customerResult = await resend.emails.send({
+        from: FROM_EMAIL,
+        to: customerEmail,
+        replyTo: siteConfig.email,
+        subject: `Je download is klaar — ${ebookTitle}`,
+        html: customerHtml,
+      });
+
+      console.log("Resend customer result:", JSON.stringify(customerResult, null, 2));
+
+      if (internalResult.error || customerResult.error) {
+        throw new Error(
+          `Webhook e-mailverzending mislukt: ${JSON.stringify({
+            internalResult,
+            customerResult,
+          })}`,
+        );
       }
     }
 

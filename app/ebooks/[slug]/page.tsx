@@ -130,7 +130,7 @@ export default function EbookDetailPage({ params }: EbookDetailPageProps) {
         <div className="section-shell relative py-10 md:py-14 lg:py-20">
           <div className="section-divider mb-8 md:mb-10" />
 
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_24rem] lg:items-start">
             <div className="min-w-0">
               <div className="flex flex-wrap items-center gap-3">
                 <p className="mono-label">Ebook</p>
@@ -162,7 +162,10 @@ export default function EbookDetailPage({ params }: EbookDetailPageProps) {
               </div>
             </div>
 
-            <aside className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white/95 p-6 shadow-[0_24px_80px_rgba(41,82,204,0.12)] backdrop-blur sm:p-7 lg:sticky lg:top-32">
+            <aside
+              id="koop-ebook"
+              className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white/95 p-6 shadow-[0_24px_80px_rgba(41,82,204,0.12)] backdrop-blur sm:p-7 lg:sticky lg:top-32"
+            >
               <p className="mono-label text-[var(--rd-purple)]">Koop direct</p>
               <p className="mt-4 text-[2.6rem] font-semibold leading-none text-[var(--rd-text)]">
                 {formatEbookPrice(ebook.price)}
@@ -182,7 +185,10 @@ export default function EbookDetailPage({ params }: EbookDetailPageProps) {
 
               <ul className="mt-6 space-y-3">
                 {purchaseHighlights.map((item) => (
-                  <li key={item} className="flex items-start gap-3 text-sm leading-7 text-[var(--rd-text)]">
+                  <li
+                    key={item}
+                    className="flex items-start gap-3 text-sm leading-7 text-[var(--rd-text)]"
+                  >
                     <span className="mt-1 inline-flex h-5 w-5 flex-none items-center justify-center rounded-full bg-[rgba(123,53,232,0.12)] text-[var(--rd-purple)]">
                       <CheckIcon className="h-3.5 w-3.5" />
                     </span>
@@ -256,11 +262,9 @@ export default function EbookDetailPage({ params }: EbookDetailPageProps) {
               </ul>
 
               <div className="mt-8 flex flex-col gap-4">
-                <EbookCheckoutButton
-                  slug={ebook.slug}
-                  label={`Koop nu — ${formatEbookPrice(ebook.price)}`}
-                  className="w-full"
-                />
+                <ButtonLink href="#koop-ebook" size="lg">
+                  Koop nu — {formatEbookPrice(ebook.price)}
+                </ButtonLink>
                 <ButtonLink href="/contact" variant="secondary" size="lg">
                   Vraag iets aan RDFS
                 </ButtonLink>

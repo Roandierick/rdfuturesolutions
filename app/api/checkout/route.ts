@@ -11,7 +11,10 @@ const stripe = process.env.STRIPE_SECRET_KEY
 
 type CheckoutPayload = {
   slug?: string;
+  email?: string;
 };
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function getSiteUrl(request: Request) {
   const requestOrigin = request.headers.get("origin");
@@ -31,10 +34,18 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as CheckoutPayload;
     const slug = body.slug?.trim();
+    const email = body.email?.trim().toLowerCase();
 
     if (!slug) {
       return NextResponse.json(
         { message: "Geef een geldig ebook door." },
+        { status: 400 },
+      );
+    }
+
+    if (!email || !emailPattern.test(email)) {
+      return NextResponse.json(
+        { message: "Geef een geldig e-mailadres op." },
         { status: 400 },
       );
     }
@@ -58,8 +69,6 @@ export async function POST(request: Request) {
     const siteUrl = getSiteUrl(request);
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      customer_creation: "always",
-      billing_address_collection: "auto",
       line_items: [
         {
           price: ebook.priceId,
@@ -68,10 +77,11 @@ export async function POST(request: Request) {
       ],
       success_url: `${siteUrl}/bedankt?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteUrl}/ebooks/${ebook.slug}`,
-      customer_email: undefined,
+      customer_email: email,
       metadata: {
         slug: ebook.slug,
         ebook_title: ebook.title,
+        customer_email: email,
       },
     });
 
