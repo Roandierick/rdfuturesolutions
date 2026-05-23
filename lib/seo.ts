@@ -63,15 +63,16 @@ export const localBusinessSchema = {
   url: siteConfig.siteUrl,
   areaServed: siteConfig.areaServed,
   vatID: siteConfig.vatId,
-  description: siteConfig.description,
+  description:
+    "RD Future Solutions is een Belgische AI-integratiespecialist gevestigd in Diest. Wij helpen KMO's en ondernemers groeien door slimme AI-integratie \u2014 van strategie tot implementatie.",
 };
 
 export const serviceSchemas = [
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Website laten maken in Vlaanderen",
-    serviceType: "Webdesign en websiteontwikkeling op maat",
+    name: "AI-strategie & advies Belgi\u00eb",
+    serviceType: "AI-consulting en strategisch advies voor KMO's",
     provider: {
       "@type": "LocalBusiness",
       name: siteConfig.name,
@@ -79,13 +80,13 @@ export const serviceSchemas = [
     },
     areaServed: siteConfig.areaServed,
     description:
-      "Professionele, snelle en SEO-geoptimaliseerde websites op maat voor KMO's, zelfstandigen en lokale handelaars in Vlaanderen.",
+      "Concrete AI-strategie op maat voor Belgische ondernemers en KMO's. Van procesanalyse tot uitvoerbare roadmap.",
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "App laten maken in Vlaanderen",
-    serviceType: "Mobiele app ontwikkeling voor iOS en Android",
+    name: "AI-automatisering van bedrijfsprocessen Belgi\u00eb",
+    serviceType: "AI-automatisering en workflow optimalisatie",
     provider: {
       "@type": "LocalBusiness",
       name: siteConfig.name,
@@ -93,13 +94,13 @@ export const serviceSchemas = [
     },
     areaServed: siteConfig.areaServed,
     description:
-      "Mobiele apps voor iOS en Android, gebouwd met React Native en afgestemd op ondernemers en bedrijven in Vlaanderen.",
+      "Automatisering van repetitieve bedrijfsprocessen met AI voor KMO's en zelfstandigen in Belgi\u00eb.",
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "Software op maat in Vlaanderen",
-    serviceType: "Dashboards, automatiseringstools en platformen op maat",
+    name: "AI-chatbots & klantenservice Belgi\u00eb",
+    serviceType: "AI-chatbot ontwikkeling en klantenservice automatisering",
     provider: {
       "@type": "LocalBusiness",
       name: siteConfig.name,
@@ -107,13 +108,13 @@ export const serviceSchemas = [
     },
     areaServed: siteConfig.areaServed,
     description:
-      "Dashboards, automatiseringstools en interne platformen op maat voor bedrijven in Vlaanderen die meer nodig hebben dan standaardsoftware.",
+      "Op maat gemaakte AI-chatbots voor Belgische bedrijven. 24/7 klantenservice, getraind op jouw producten en diensten.",
   },
   {
     "@context": "https://schema.org",
     "@type": "Service",
-    name: "AI Integraties in Vlaanderen",
-    serviceType: "AI-chatbots, AI-automatisering en AI-integraties op maat",
+    name: "AI Startup Assistant Belgi\u00eb",
+    serviceType: "Volledige digitale lancering met AI voor starters",
     provider: {
       "@type": "LocalBusiness",
       name: siteConfig.name,
@@ -121,6 +122,20 @@ export const serviceSchemas = [
     },
     areaServed: siteConfig.areaServed,
     description:
-      "AI-integraties op maat voor KMO's en zelfstandigen in Vlaanderen, van chatbots en automatisering tot intelligente data-analyse en praktische AI-tools.",
+      "Alles voor starters op \u00e9\u00e9n plek: website, branding, e-mailfunnel, AI-chatbot, Meta en Google Ads, Google Business Profile \u2014 volledig geautomatiseerd met AI.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: "Custom AI Tools Belgi\u00eb",
+    serviceType: "Op maat gemaakte AI-tools en toepassingen",
+    provider: {
+      "@type": "LocalBusiness",
+      name: siteConfig.name,
+      url: siteConfig.siteUrl,
+    },
+    areaServed: siteConfig.areaServed,
+    description:
+      "Gespecialiseerde AI-tools op maat voor Belgische bedrijven. Van interactieve databases tot diepgaande AI-chatbots afgestemd op jouw sector.",
   },
 ];

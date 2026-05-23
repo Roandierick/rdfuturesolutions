@@ -3,9 +3,31 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { SiteLogo } from "@/components/site-logo";
 import { navigation } from "@/lib/site";
 import { cn } from "@/lib/utils";
+
+function HeaderBrand() {
+  return (
+    <Link
+      href="/"
+      className="inline-flex min-w-0 items-center gap-3"
+      aria-label="Ga naar de homepage van RD Future Solutions"
+    >
+      <span className="inline-flex h-12 w-12 items-center justify-center border border-[var(--rd-border-blue)] bg-[var(--rd-gradient-soft)] text-[var(--rd-blue)]">
+        <span className="gradient-text font-display text-xl font-bold tracking-[-0.06em]">RD</span>
+      </span>
+
+      <span className="min-w-0">
+        <span className="block font-mono text-[0.68rem] uppercase tracking-[0.18em] text-[var(--rd-blue)]">
+          AI-consultant
+        </span>
+        <span className="block text-sm font-semibold leading-tight text-[var(--rd-text)] sm:text-base">
+          RD Future Solutions
+        </span>
+      </span>
+    </Link>
+  );
+}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -80,7 +102,9 @@ export function SiteHeader() {
       >
         <div className="section-shell">
           <div className="flex h-24 items-center justify-between gap-6 md:h-28">
-            <SiteLogo className="min-w-0" />
+            <div className="min-w-0">
+              <HeaderBrand />
+            </div>
 
             <nav className="hidden items-center gap-7 md:flex">
               {navigation

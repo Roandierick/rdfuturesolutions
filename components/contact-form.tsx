@@ -10,19 +10,52 @@ type FormState = {
   naam: string;
   email: string;
   telefoon: string;
-  typeProject: string;
-  budget: string;
+  dienst: string;
+  bedrijfsnaam: string;
+  locatie: string;
   omschrijving: string;
 };
+
+const dienstOpties = [
+  "AI-strategie & advies",
+  "AI-automatisering",
+  "AI-chatbots & klantenservice",
+  "AI Startup Assistant",
+  "Custom AI Tools",
+  "Nog niet zeker",
+] as const;
 
 const initialFormState: FormState = {
   naam: "",
   email: "",
   telefoon: "",
-  typeProject: "Website",
-  budget: "Nog niet zeker",
+  dienst: "Nog niet zeker",
+  bedrijfsnaam: "",
+  locatie: "",
   omschrijving: "",
 };
+
+function buildOmschrijving(formData: FormState) {
+  const introLines = [
+    formData.bedrijfsnaam ? `Bedrijfsnaam: ${formData.bedrijfsnaam}` : null,
+    `Locatie / gemeente: ${formData.locatie}`,
+  ].filter((value): value is string => Boolean(value));
+
+  return [...introLines, "", formData.omschrijving.trim()].join("\n");
+}
+
+function buildPayload(formData: FormState) {
+  return {
+    naam: formData.naam,
+    email: formData.email,
+    telefoon: formData.telefoon,
+    typeProject: formData.dienst,
+    dienst: formData.dienst,
+    bedrijfsnaam: formData.bedrijfsnaam,
+    locatie: formData.locatie,
+    omschrijving: buildOmschrijving(formData),
+  };
+}
 
 export function ContactForm() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
@@ -46,7 +79,7 @@ export function ContactForm() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(buildPayload(formData)),
         });
 
         const data = (await response.json()) as { message?: string };
@@ -75,7 +108,10 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rd-card border-l-[3px] border-l-[var(--rd-blue)] p-6 md:p-8">
+    <form
+      onSubmit={handleSubmit}
+      className="rd-card border-l-[3px] border-l-[var(--rd-blue)] p-6 md:p-8"
+    >
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <label className="block">
           <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">Naam</span>
@@ -116,40 +152,49 @@ export function ContactForm() {
 
         <label className="block">
           <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
-            Type project
+            Welke dienst interesseert je?
           </span>
           <select
             className="rd-underline-input"
-            name="typeProject"
-            value={formData.typeProject}
-            onChange={(event) => updateField("typeProject", event.target.value)}
+            name="dienst"
+            required
+            value={formData.dienst}
+            onChange={(event) => updateField("dienst", event.target.value)}
           >
-            <option>Website</option>
-            <option>App</option>
-            <option>Software</option>
-            <option>Andere</option>
+            {dienstOpties.map((optie) => (
+              <option key={optie}>{optie}</option>
+            ))}
           </select>
         </label>
 
-        <label className="block sm:col-span-2">
-          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">Budget</span>
-          <select
+        <label className="block">
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
+            Naam van je bedrijf
+          </span>
+          <input
             className="rd-underline-input"
-            name="budget"
-            value={formData.budget}
-            onChange={(event) => updateField("budget", event.target.value)}
-          >
-            <option>Minder dan €600</option>
-            <option>€600 – €1.200</option>
-            <option>€1.200 – €2.500</option>
-            <option>€2.500+</option>
-            <option>Nog niet zeker</option>
-          </select>
+            name="bedrijfsnaam"
+            value={formData.bedrijfsnaam}
+            onChange={(event) => updateField("bedrijfsnaam", event.target.value)}
+          />
+        </label>
+
+        <label className="block">
+          <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
+            Locatie / gemeente
+          </span>
+          <input
+            className="rd-underline-input"
+            name="locatie"
+            required
+            value={formData.locatie}
+            onChange={(event) => updateField("locatie", event.target.value)}
+          />
         </label>
 
         <label className="block sm:col-span-2">
           <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">
-            Omschrijving van het project
+            Vertel ons over je bedrijf en wat je wilt bereiken
           </span>
           <textarea
             className="rd-underline-input min-h-[152px] resize-y"

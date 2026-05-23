@@ -230,6 +230,82 @@
 }
 
 @layer utilities {
+  @keyframes hero-mesh-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    50% {
+      transform: translate3d(8%, -6%, 0) scale(1.08);
+    }
+  }
+
+  @keyframes hero-mesh-sway {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    35% {
+      transform: translate3d(-6%, 8%, 0) scale(1.04);
+    }
+
+    70% {
+      transform: translate3d(7%, 5%, 0) scale(1.1);
+    }
+  }
+
+  @keyframes hero-particle-float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0.3;
+    }
+
+    50% {
+      transform: translate3d(0, -20px, 0);
+      opacity: 0.85;
+    }
+  }
+
+  @keyframes hero-particle-drift {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+      opacity: 0.32;
+    }
+
+    50% {
+      transform: translate3d(16px, -14px, 0);
+      opacity: 0.8;
+    }
+  }
+
+  .animate-mesh-slow {
+    animation: hero-mesh-drift 18s ease-in-out infinite;
+  }
+
+  .animate-mesh-medium {
+    animation: hero-mesh-sway 24s ease-in-out infinite;
+  }
+
+  .animate-mesh-reverse {
+    animation: hero-mesh-drift 22s ease-in-out infinite reverse;
+  }
+
+  .animate-float-slow {
+    animation: hero-particle-float 12s ease-in-out infinite;
+  }
+
+  .animate-float-medium {
+    animation: hero-particle-drift 10s ease-in-out infinite;
+  }
+
+  .animate-float-reverse {
+    animation: hero-particle-drift 14s ease-in-out infinite reverse;
+  }
+
   .text-balance {
     text-wrap: balance;
   }

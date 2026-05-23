@@ -2,15 +2,14 @@ import { ButtonLink } from "@/components/button-link";
 import { ContactForm } from "@/components/contact-form";
 import { ClockIcon, MailIcon, PhoneIcon, SparkIcon } from "@/components/icons";
 import { PageHero } from "@/components/page-hero";
-import { PageLinks } from "@/components/page-links";
 import { SectionHeading } from "@/components/section-heading";
 import { createMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
 export const metadata = createMetadata({
-  title: "Contact",
+  title: "Contact | Boek een gratis AI-adviesgesprek — RD Future Solutions",
   description:
-    "Vraag een gratis offerte aan bij RD Future Solutions voor een website, app of software op maat in Vlaanderen.",
+    "Boek een gratis en vrijblijvend AI-adviesgesprek met RD Future Solutions. Wij komen bij jou ter plaatse en bekijken samen waar AI waarde kan toevoegen.",
   path: "/contact",
 });
 
@@ -19,10 +18,10 @@ export default function ContactPage() {
     <>
       <PageHero
         eyebrow="Contact"
-        title="Vertel ons wat je wilt bouwen"
-        description="Zoek je een professionele website, een mobiele app of software op maat? Stuur je aanvraag door en we nemen zo snel mogelijk contact met je op."
+        title="Boek een gratis AI-adviesgesprek"
+        description="Vertel ons wat je wilt bereiken. Wij komen bij jou ter plaatse en bekijken samen wat AI concreet kan betekenen voor jouw bedrijf — zonder verplichtingen."
         primaryCta={{ href: "#lead-form", label: "Start je aanvraag" }}
-        secondaryCta={{ href: "/prijzen", label: "Bekijk eerst de prijzen" }}
+        secondaryCta={{ href: "/prijzen", label: "Bekijk de prijzen" }}
       />
 
       <section id="lead-form" className="section-space scroll-mt-32">
@@ -30,9 +29,9 @@ export default function ContactPage() {
           <div className="grid gap-12 lg:grid-cols-[minmax(0,0.4fr)_minmax(0,0.6fr)] lg:items-start">
             <div className="space-y-8">
               <SectionHeading
-                eyebrow="Gratis offerte"
-                title="Vraag vandaag nog jouw project aan"
-                description="Vul het formulier in met zoveel mogelijk context. Hoe duidelijker je idee, hoe gerichter we kunnen antwoorden."
+                eyebrow="Gratis gesprek"
+                title="Vertel ons over jouw bedrijf"
+                description="Vul het formulier in. Wij reviewen jouw aanvraag en sturen je 3 beschikbare momenten door waarop Roan bij jou langs kan komen."
               />
 
               <div className="relative overflow-hidden bg-[var(--rd-bg-soft)] px-6 py-7 sm:px-7">
@@ -43,7 +42,10 @@ export default function ContactPage() {
                   <p>{siteConfig.name}</p>
                   <p>{siteConfig.addressDisplay}</p>
                   <p>KBO {siteConfig.kboDisplay}</p>
-                  <a href={`tel:${siteConfig.phone}`} className="flex items-start gap-3 hover:text-[var(--rd-blue)]">
+                  <a
+                    href={`tel:${siteConfig.phone}`}
+                    className="flex items-start gap-3 hover:text-[var(--rd-blue)]"
+                  >
                     <PhoneIcon className="mt-1 h-4 w-4 flex-none" />
                     <span>{siteConfig.phoneDisplay}</span>
                   </a>
@@ -64,12 +66,26 @@ export default function ContactPage() {
                   <div className="border-b border-[var(--rd-border)] pb-4">
                     <h3 className="flex items-center gap-3">
                       <span className="rd-icon-square h-10 w-10">
-                        <ClockIcon />
+                        <PhoneIcon />
                       </span>
-                      Snelle eerste reactie
+                      Persoonlijk gesprek bij jou
                     </h3>
                     <p className="mt-3 text-sm leading-7 sm:text-base">
-                      We nemen zo snel mogelijk contact met je op om jouw vraag te bespreken.
+                      Roan komt bij jou ter plaatse. Geen videocall, geen bureau — gewoon een
+                      eerlijk gesprek op jouw locatie over wat AI voor jouw bedrijf kan doen.
+                    </p>
+                  </div>
+
+                  <div className="border-b border-[var(--rd-border)] pb-4">
+                    <h3 className="flex items-center gap-3">
+                      <span className="rd-icon-square h-10 w-10">
+                        <ClockIcon />
+                      </span>
+                      3 voorgestelde momenten
+                    </h3>
+                    <p className="mt-3 text-sm leading-7 sm:text-base">
+                      Na je aanvraag ontvang je automatisch een mail met 3 beschikbare tijdsslots.
+                      Jij kiest wat past, wij bevestigen.
                     </p>
                   </div>
 
@@ -78,19 +94,20 @@ export default function ContactPage() {
                       <span className="rd-icon-square h-10 w-10 text-[var(--rd-purple)]">
                         <SparkIcon />
                       </span>
-                      Helder advies
+                      Concreet advies, geen verkoopspraatje
                     </h3>
                     <p className="mt-3 text-sm leading-7 sm:text-base">
-                      Je krijgt een realistische inschatting van aanpak, timing en budget.
+                      Je verlaat het gesprek met een helder beeld van wat AI voor jouw bedrijf kan
+                      betekenen en wat het kost. Geen vage beloftes.
                     </p>
                   </div>
                 </div>
 
                 <div className="mt-6 border-t border-[var(--rd-border)] pt-6">
-                  <h3>Nog aan het oriënteren?</h3>
+                  <h3>Nog niet zeker?</h3>
                   <p className="mt-3 text-sm leading-7 sm:text-base">
-                    Bekijk eerst onze diensten en prijsstructuur als je jouw project nog scherper
-                    wilt definiëren.
+                    Bekijk eerst onze diensten en prijsstructuur als je meer context wilt voor het
+                    gesprek.
                   </p>
                   <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                     <ButtonLink href="/diensten" variant="secondary" className="flex-1">
@@ -114,8 +131,6 @@ export default function ContactPage() {
           </div>
         </div>
       </section>
-
-      <PageLinks currentPath="/contact" />
     </>
   );
 }

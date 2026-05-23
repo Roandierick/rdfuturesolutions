@@ -8,8 +8,8 @@ export const siteConfig = {
   phoneDisplay: "+32 468 41 45 55",
   city: "Diest",
   region: "Vlaams-Brabant",
-  country: "Belgi\u00eb",
-  addressDisplay: "Diest, Vlaams-Brabant, Belgi\u00eb",
+  country: "België",
+  addressDisplay: "Diest, Vlaams-Brabant, België",
   areaServed: "Vlaanderen",
   vatId: "BE1027147747",
   kboDisplay: "1027.147.747",
@@ -35,6 +35,11 @@ export const navigation = [
     href: "/diensten",
     label: "Diensten",
     description: "Bekijk onze diensten voor webdesign, apps en softwareontwikkeling.",
+  },
+  {
+    href: "/ebooks",
+    label: "Ebooks",
+    description: "Praktische AI-gidsen die je direct kan toepassen.",
   },
   {
     href: "/prijzen",

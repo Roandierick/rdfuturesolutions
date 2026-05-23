@@ -1,77 +1,90 @@
 import { ButtonLink } from "@/components/button-link";
 import { FaqAccordion } from "@/components/faq-accordion";
-import {
-  AnalyticsIcon,
-  CheckIcon,
-  GlobeIcon,
-  MobileIcon,
-  ShieldIcon,
-  SoftwareIcon,
-} from "@/components/icons";
-import { InfoCard } from "@/components/info-card";
 import { PageHero } from "@/components/page-hero";
-import { PageLinks } from "@/components/page-links";
-import { PricingCard } from "@/components/pricing-card";
 import { SectionHeading } from "@/components/section-heading";
 import { createMetadata } from "@/lib/seo";
 
-const aiFeatures = [
-  "AI-chatbot op maat voor klantenservice of interne ondersteuning",
-  "Automatisering van repetitieve bedrijfsprocessen met AI",
-  "Integratie van AI in bestaande websites, apps of software",
-  "Intelligente data-analyse en rapportage",
-  "OpenAI, Anthropic en andere AI-provider integraties",
-  "Persoonlijke begeleiding en training voor jouw team",
-  "Verplicht onderhoudsabonnement: \u20ac110/maand (monitoring, updates, optimalisatie)",
+const pricingItems = [
+  {
+    title: "AI-strategie & advies",
+    setup: "vanaf €500",
+    recurring: "optioneel €150/maand (opvolging en bijsturing)",
+    description:
+      "Een strategiesessie met concrete roadmap voor AI in jouw bedrijf.",
+  },
+  {
+    title: "AI-automatisering",
+    setup: "vanaf €1.500",
+    recurring: "€110–€250/maand (monitoring, onderhoud, optimalisatie)",
+    description:
+      "Automatisering van repetitieve processen op maat van jouw werking.",
+  },
+  {
+    title: "AI-chatbots & klantenservice",
+    setup: "vanaf €2.000",
+    recurring: "€110/maand (monitoring, updates, optimalisatie)",
+    description:
+      "Een slimme chatbot die jouw klanten 24/7 helpt en leads capteert.",
+  },
+  {
+    title: "AI Startup Assistant",
+    setup: "vanaf €3.000",
+    recurring: "vanaf €500/maand (onderhoud, ads, opvolging)",
+    description:
+      "Alles voor starters op één plek: website, branding, funnel, chatbot en advertenties.",
+  },
+  {
+    title: "Custom AI Tools",
+    setup: "op aanvraag",
+    recurring: "op aanvraag",
+    description:
+      "Maatwerk AI-tools afgestemd op jouw specifieke noden en sector.",
+  },
 ] as const;
 
 const faqItems = [
   {
-    question: "Wat is er inbegrepen in de eenmalige prijs?",
+    question: "Wat zit er in de eenmalige kost?",
     answer:
-      "De eenmalige ontwikkelkost dekt het ontwerp, de development, basis testing en de afgesproken functionaliteiten van jouw project. Hosting en doorlopende ondersteuning worden apart gefactureerd.",
+      "De eenmalige kost dekt de volledige analyse, strategie, bouw en implementatie van jouw AI-oplossing. Alles wat nodig is om de oplossing werkend op te leveren.",
   },
   {
-    question: "Waarom is hosting verplicht?",
+    question: "Waarom is er een maandelijkse kost?",
     answer:
-      "Hosting zorgt ervoor dat je website of app veilig online blijft, vlot laadt en technisch onderhouden kan worden. Zonder stabiele hosting kan geen digitaal project betrouwbaar werken.",
+      "AI-oplossingen hebben actieve opvolging nodig. Modellen worden bijgewerkt, jouw bedrijf evolueert en wat vandaag werkt moet morgen nog beter presteren. Het maandelijks bedrag dekt monitoring, updates en continue optimalisatie.",
   },
   {
-    question: "Hoelang duurt het om een website te bouwen?",
+    question: "Kan ik starten zonder maandelijks abonnement?",
     answer:
-      "Een compacte website kan vaak binnen ongeveer twee weken opgeleverd worden. Grotere projecten met extra pagina's, CMS of maatwerkfunctionaliteiten vragen logischerwijs meer tijd.",
+      "Voor AI-strategie & advies is het maandelijks abonnement optioneel. Voor alle andere diensten is opvolging verplicht — zonder onderhoud kan een AI-implementatie snel verouderen of falen.",
   },
   {
-    question: "Hoe verloopt de samenwerking stap voor stap?",
+    question: "Hoe verloopt de samenwerking?",
     answer:
-      "We starten met een intake, stemmen scope en planning af, bouwen iteratief met feedbackmomenten en ronden af met testing, launch en praktische nazorg.",
+      "Alles start met een gratis en vrijblijvend gesprek. Daarna ontvang je een concreet voorstel met scope, prijs en planning. Pas als je akkoord gaat, starten we.",
   },
   {
-    question: "Wat als ik al een domein of hosting heb?",
+    question: "Werk je ook buiten Diest?",
     answer:
-      "Dat bekijken we samen. In veel gevallen kunnen we bestaande domeinen overnemen of een deel van je huidige setup integreren, zolang de technische kwaliteit goed genoeg is.",
+      "Ja. RD Future Solutions is gevestigd in Diest maar werkt voor klanten in heel België via online meetings en duidelijke projectopvolging.",
   },
   {
-    question: "Kan ik later extra pagina's of functies toevoegen?",
+    question: "Zijn er verborgen kosten?",
     answer:
-      "Ja. Websites, apps en software worden zo opgebouwd dat ze later kunnen meegroeien met je onderneming. Uitbreidingen kunnen perfect in een volgende fase toegevoegd worden.",
-  },
-  {
-    question: "Werk je ook buiten Diest, in de rest van Vlaanderen?",
-    answer:
-      "Ja. RD Future Solutions is gevestigd in Diest, maar werkt voor klanten in heel Vlaanderen via online meetings, effici\u00ebnte communicatie en duidelijke projectplanning.",
+      "Nee. Alle kosten worden op voorhand besproken en vastgelegd. Geen verrassingen achteraf.",
   },
 ] as const;
 
 export const metadata = createMetadata({
-  title: "Prijzen",
+  title: "Prijzen AI-integratie & consultancy België",
   description:
-    "Ontdek de prijzen van RD Future Solutions voor websites, hosting en maatwerksoftware in Vlaanderen. Transparant, helder en zonder verborgen kosten.",
+    "Transparante prijsstructuur voor AI-strategie, automatisering, chatbots en custom AI tools. Eenmalige kost + maandelijkse opvolging.",
   path: "/prijzen",
   keywords: [
-    "AI integratie prijs",
-    "chatbot laten maken prijs",
-    "AI automatisering kosten",
+    "AI integratie prijs België",
+    "AI consultant tarief",
+    "AI chatbot kosten",
+    "AI automatisering prijs KMO",
   ],
 });
 
@@ -80,191 +93,102 @@ export default function PricingPage() {
     <>
       <PageHero
         eyebrow="Prijzen"
-        title="Transparante prijzen voor websites, apps en software op maat"
-        description="Je wilt weten waar je aan toe bent voor je beslist. Daarom vind je hier een heldere prijsstructuur voor websites, hosting en maatwerktrajecten."
-        primaryCta={{ href: "/contact", label: "Vraag een offerte aan" }}
+        title="Eerlijke prijzen voor AI die echt werkt"
+        description="Elk project is anders. Daarom werken we met een combinatie van een eenmalige opstartkost en een maandelijks bedrag voor opvolging en optimalisatie. Geen verrassingen, geen verborgen kosten."
+        primaryCta={{ href: "/contact", label: "Boek een gratis gesprek" }}
         secondaryCta={{ href: "/diensten", label: "Bekijk de diensten" }}
       />
 
-      <section className="pb-8">
-        <div className="section-shell">
-          <div className="border-l-[3px] border-l-[var(--rd-purple)] bg-[var(--rd-bg-soft)] px-5 py-4 sm:px-6">
-            <p className="text-base leading-8 text-[var(--rd-text-body)]">
-              Bij elk website- of app-project is een hostingabonnement verplicht. Dit zorgt ervoor
-              dat jouw project online blijft, veilig is en up-to-date.
-            </p>
-          </div>
-        </div>
-      </section>
-
       <section className="section-space pt-4">
         <div className="section-shell">
-          <SectionHeading
-            eyebrow="Websiteprojecten"
-            title="Eenmalige kost voor websites"
-            description="Deze pakketten geven een duidelijke richtlijn voor de meeste websiteprojecten. Voor extra functionaliteiten bekijken we samen wat nodig is."
-          />
+          <div className="grid gap-6 lg:grid-cols-2">
+            <div className="rd-card p-6 sm:p-8">
+              <p className="mono-label">Eenmalige kost</p>
+              <h3 className="mt-4 text-[1.45rem] sm:text-[1.6rem]">Eenmalige opstartkost</h3>
+              <p className="mt-4 text-sm leading-7 sm:text-base">
+                Dit dekt de analyse, strategie, bouw en implementatie van jouw AI-oplossing. De
+                prijs hangt af van de complexiteit en scope van jouw project.
+              </p>
+            </div>
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            <PricingCard
-              title="Starter"
-              price={"Vanaf \u20ac600"}
-              description="Voor een landingspagina of compacte website die snel online moet staan."
-              features={[
-                "Landingspagina of 1\u20133 pagina's",
-                "Responsief design",
-                "Contactformulier",
-                "Basis-SEO",
-                "Oplevering binnen 2 weken",
-              ]}
-            />
-
-            <PricingCard
-              title="Professioneel"
-              price={"\u20ac1.200 \u2013 \u20ac2.500"}
-              description="Voor groeigerichte bedrijven die meer content, SEO en flexibiliteit nodig hebben."
-              badge="Meest gekozen"
-              highlighted
-              features={[
-                "Tot 10 pagina's",
-                "Geavanceerde SEO",
-                "CMS-integratie",
-                "Google Analytics & Search Console",
-                "Animaties & microinteracties",
-              ]}
-            />
-
-            <PricingCard
-              title="Maatwerk"
-              price={"Op aanvraag, vanaf \u20ac2.500"}
-              description="Voor grotere websites, webshops of trajecten met specifieke technische vereisten."
-              features={[
-                "Onbeperkte pagina's",
-                "Webshop met Stripe of Mollie",
-                "Complexe integraties en functionaliteiten",
-                "Volledig op maat uitgewerkt",
-              ]}
-            />
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-6">
-        <div className="section-shell">
-          <SectionHeading eyebrow="AI & automatisering" title="AI Integraties" />
-
-          <div className="mt-10 rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-[rgba(123,53,232,0.03)] p-6 sm:p-8 lg:p-10">
-            <p className="bg-[image:var(--rd-gradient)] bg-clip-text font-mono text-[0.72rem] uppercase tracking-[0.16em] text-transparent">
-              AI EXPERT
-            </p>
-            <h3 className="mt-4 text-[1.35rem]">AI Integraties op maat</h3>
-            <p className="gradient-text mt-4 font-display text-[clamp(2.2rem,4vw,3.4rem)] font-bold leading-none">
-              Vanaf {"\u20ac"}2.000
-            </p>
-            <p className="mt-3 text-base leading-8 text-[var(--rd-text-body)]">
-              + verplicht onderhoudsabonnement {"\u20ac"}110/maand
-            </p>
-
-            <ul className="mt-8 grid gap-4 md:grid-cols-2">
-              {aiFeatures.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 text-sm leading-7 sm:text-base">
-                  <span className="mt-0.5 inline-flex h-6 w-6 flex-none items-center justify-center bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]">
-                    <CheckIcon className="h-4 w-4" />
-                  </span>
-                  <span className="text-[var(--rd-text-body)]">{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <p className="mt-6 text-sm leading-7 text-[var(--rd-text-muted)] sm:text-base">
-              Het maandelijkse onderhoudsabonnement is verplicht en omvat monitoring, updates,
-              beveiligingspatches en continue AI-optimalisatie.
-            </p>
-
-            <div className="mt-8">
-              <ButtonLink href="/contact">Vraag een vrijblijvende offerte aan</ButtonLink>
+            <div className="rd-card p-6 sm:p-8">
+              <p className="mono-label">Maandelijks</p>
+              <h3 className="mt-4 text-[1.45rem] sm:text-[1.6rem]">Maandelijkse opvolging</h3>
+              <p className="mt-4 text-sm leading-7 sm:text-base">
+                AI staat niet stil. Modellen evolueren, jouw bedrijf groeit. Het maandelijks bedrag
+                zorgt dat wij actief blijven monitoren, optimaliseren en bijsturen — zodat jouw
+                investering blijft renderen.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="section-space rd-soft-section">
+      <section className="section-space pt-0">
         <div className="section-shell">
           <SectionHeading
-            eyebrow="Hosting & onderhoud"
-            title="Twee duidelijke opties naast de ontwikkelkost"
-            description="Hosting is verplicht bij elk website- en app-project en wordt apart gefactureerd naast de eenmalige ontwikkelkost."
+            eyebrow="Prijsstructuur"
+            title="Richtprijzen per dienst"
+            description="Elk traject start met een vrijblijvende intake. Op basis daarvan bepalen we de exacte scope, de eenmalige opstartkost en de maandelijkse opvolging."
           />
 
-          <div className="mt-12 grid gap-6 lg:grid-cols-2">
-            <InfoCard
-              icon={<ShieldIcon />}
-              accent="purple"
-              title={"Optie 1 \u2014 Hosting + onderhoud"}
-              description={"\u20ac50 / maand"}
-            >
-              <ul className="space-y-3 text-sm leading-7 sm:text-base">
-                <li>Hosting van je website of app</li>
-                <li>SSL-certificaat</li>
-                <li>Technische beschikbaarheid gegarandeerd</li>
-                <li>Verplicht bij elk project</li>
-              </ul>
-            </InfoCard>
+          <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+            {pricingItems.map((item) => (
+              <div
+                key={item.title}
+                className="rd-card border-l-[3px] border-l-[var(--rd-purple)] p-6 sm:p-7"
+              >
+                <p className="mono-label text-[var(--rd-purple)]">Dienst</p>
+                <h3 className="mt-4">{item.title}</h3>
 
-            <InfoCard
-              icon={<AnalyticsIcon />}
-              accent="purple"
-              title={"Optie 2 \u2014 Hosting + Google Ads ondersteuning"}
-              description={"Vanaf \u20ac250 / maand"}
-            >
-              <ul className="space-y-3 text-sm leading-7 sm:text-base">
-                <li>Alles van Optie 1</li>
-                <li>Opzetten en beheren van Google Ads campagnes</li>
-                <li>Maandelijkse rapportage</li>
-                <li>Optimalisatie van advertentiebudget</li>
-              </ul>
-            </InfoCard>
+                <div className="mt-6 space-y-4">
+                  <div>
+                    <p className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--rd-text-muted)]">
+                      Eenmalig
+                    </p>
+                    <p className="mt-2 text-[1.65rem] font-semibold leading-none text-[var(--rd-text)]">
+                      {item.setup}
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="font-mono text-[0.72rem] uppercase tracking-[0.14em] text-[var(--rd-text-muted)]">
+                      Recurring
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-[var(--rd-text)] sm:text-base">
+                      {item.recurring}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="mt-6 text-sm leading-7 sm:text-base">{item.description}</p>
+              </div>
+            ))}
           </div>
 
-          <p className="mt-6 text-sm leading-7 text-[var(--rd-text-muted)] sm:text-base">
-            Hosting is verplicht bij elk website- en app-project en wordt apart gefactureerd naast
-            de eenmalige ontwikkelkost.
+          <p className="mt-6 text-sm italic leading-7 text-[var(--rd-text-muted)] sm:text-base">
+            Alle prijzen zijn exclusief BTW. Maandelijkse kosten worden gefactureerd per
+            kalendermaand. Prijzen zijn richtprijzen — elk project start met een vrijblijvend
+            gesprek.
           </p>
         </div>
       </section>
 
-      <section className="section-space">
+      <section className="section-space pt-0">
         <div className="section-shell">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.58fr)_minmax(0,0.42fr)] lg:items-start">
+          <div className="border border-transparent bg-[linear-gradient(#fff,#fff)_padding-box,var(--rd-gradient)_border-box] p-8 md:p-10 lg:p-12">
             <SectionHeading
-              eyebrow="Apps & software"
-              title="Prijs volledig op aanvraag"
-              description="Elk project wordt individueel bekeken op basis van complexiteit, gewenste functionaliteiten en timing. Een vrijblijvende intake is altijd de eerste stap."
+              centered
+              eyebrow="Gratis gesprek"
+              title="Klaar om te starten?"
+              description="Boek een gratis en vrijblijvend gesprek. We bekijken samen wat AI voor jouw bedrijf kan betekenen en wat het concreet kost."
             />
 
-            <div className="lg:pt-3">
+            <div className="mt-8 flex justify-center">
               <ButtonLink href="/contact" size="lg">
-                Bespreek jouw project
+                Boek nu een gesprek
               </ButtonLink>
             </div>
-          </div>
-
-          <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            <InfoCard
-              icon={<MobileIcon />}
-              title="Apps"
-              description="Voor mobiele toepassingen kijken we naar schermen, flows, backend, publicatie en onderhoud."
-            />
-            <InfoCard
-              icon={<SoftwareIcon />}
-              title="Software op maat"
-              description="Voor dashboards, interne tools en platformen bepalen scope en logica hoe het budget wordt opgebouwd."
-            />
-            <InfoCard
-              icon={<GlobeIcon />}
-              title="Vrijblijvende intake"
-              description="We luisteren eerst naar je noden en vertalen die daarna naar een realistische offerte en planning."
-            />
           </div>
         </div>
       </section>
@@ -274,7 +198,7 @@ export default function PricingPage() {
           <SectionHeading
             eyebrow="FAQ"
             title="Veelgestelde vragen over prijzen en samenwerking"
-            description="Nog twijfels over hosting, timing of de manier van samenwerken? Hieronder vind je de antwoorden op de vragen die we het vaakst krijgen."
+            description="Nog vragen over de prijsstructuur, opvolging of de manier van samenwerken? Hieronder vind je de antwoorden op de vragen die we het vaakst krijgen."
           />
 
           <div className="mt-12">
@@ -282,8 +206,6 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
-
-      <PageLinks currentPath="/prijzen" />
     </>
   );
 }

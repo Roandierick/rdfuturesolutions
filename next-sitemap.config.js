@@ -1,5 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
-const siteUrl = "https://www.rdfuturesolutions.be";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rdfuturesolutions.be";
+const ebookPaths = ["/ebooks", "/ebooks/ai-voor-de-vakman"];
 
 const config = {
   siteUrl,
@@ -7,6 +8,13 @@ const config = {
   changefreq: "weekly",
   priority: 0.7,
   exclude: ["/api/*"],
+  additionalPaths: async () =>
+    ebookPaths.map((loc) => ({
+      loc,
+      changefreq: "weekly",
+      priority: loc === "/ebooks" ? 0.85 : 0.8,
+      lastmod: new Date().toISOString(),
+    })),
   robotsTxtOptions: {
     policies: [
       {

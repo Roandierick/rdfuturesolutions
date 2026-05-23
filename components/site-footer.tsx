@@ -1,7 +1,30 @@
 import Link from "next/link";
 import { MailIcon, PhoneIcon } from "@/components/icons";
-import { SiteLogo } from "@/components/site-logo";
 import { navigation, siteConfig } from "@/lib/site";
+import { cn } from "@/lib/utils";
+
+function FooterBrand() {
+  return (
+    <Link
+      href="/"
+      className="inline-flex min-w-0 items-center gap-3"
+      aria-label="Ga naar de homepage van RD Future Solutions"
+    >
+      <span className="inline-flex h-12 w-12 items-center justify-center border border-white/12 bg-white/[0.05] text-white">
+        <span className="font-display text-xl font-bold tracking-[-0.06em] text-white">RD</span>
+      </span>
+
+      <span className="min-w-0">
+        <span className={cn("block font-mono text-[0.68rem] uppercase tracking-[0.18em] text-white/55")}>
+          AI-consultant
+        </span>
+        <span className="block text-sm font-semibold leading-tight text-white sm:text-base">
+          RD Future Solutions
+        </span>
+      </span>
+    </Link>
+  );
+}
 
 export function SiteFooter() {
   return (
@@ -9,13 +32,15 @@ export function SiteFooter() {
       <div className="section-shell py-14 md:py-16">
         <div className="grid gap-12 border-t border-white/10 pt-10 md:grid-cols-2 xl:grid-cols-[1.15fr_0.8fr_1fr]">
           <div className="min-w-0">
-            <SiteLogo dark className="w-fit" />
+            <div className="w-fit">
+              <FooterBrand />
+            </div>
             <p className="mt-6 max-w-sm text-sm leading-7 text-white/72 sm:text-base">
               Professionele digitale oplossingen voor Vlaanderen.
             </p>
             <p className="mt-6 max-w-md text-sm leading-7 text-white/58 sm:text-base">
-              {siteConfig.name} {"\u00b7"} {siteConfig.city}, {siteConfig.region} {"\u00b7"} KBO{" "}
-              {siteConfig.kboDisplay} {"\u00b7"} {siteConfig.phoneDisplay} {"\u00b7"}{" "}
+              {siteConfig.name} {"·"} {siteConfig.city}, {siteConfig.region} {"·"} KBO{" "}
+              {siteConfig.kboDisplay} {"·"} {siteConfig.phoneDisplay} {"·"}{" "}
               {siteConfig.email}
             </p>
           </div>
@@ -62,7 +87,7 @@ export function SiteFooter() {
 
       <div className="border-t border-white/8">
         <div className="section-shell flex flex-col gap-3 py-5 text-sm text-white/52 md:flex-row md:items-center md:justify-between">
-          <p>{"\u00a9"} 2026 RD Future Solutions. Alle rechten voorbehouden.</p>
+          <p>{"©"} 2026 RD Future Solutions. Alle rechten voorbehouden.</p>
           <p>KBO {siteConfig.kboDisplay}</p>
         </div>
       </div>
