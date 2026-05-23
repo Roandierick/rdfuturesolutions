@@ -105,9 +105,9 @@ export default function AboutPage() {
       <section className="section-space pt-10">
         <div className="section-shell">
           <h2 className="mx-auto max-w-5xl text-center text-[clamp(2.2rem,4.8vw,4.4rem)] italic leading-[1.15] text-[var(--rd-text)]">
-            "Ik geloof dat AI voor elk bedrijf, hoe klein ook, een{" "}
+            &quot;Ik geloof dat AI voor elk bedrijf, hoe klein ook, een{" "}
             <span className="gradient-text">concrete meerwaarde</span> kan zijn. Mijn job is om dat
-            mogelijk te maken."
+            mogelijk te maken.&quot;
           </h2>
         </div>
       </section>
@@ -190,7 +190,7 @@ export default function AboutPage() {
                   <p className="mt-3 text-sm leading-7 sm:text-base">
                     RD Future Solutions is gevestigd in Diest, Vlaams-Brabant. Dankzij een digitale
                     werkwijze begeleiden we klanten in heel België — van starters en zelfstandigen
-                    tot gevestigde KMO's.
+                    tot gevestigde KMO&apos;s.
                   </p>
                 </div>
 

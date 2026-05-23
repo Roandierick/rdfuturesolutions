@@ -403,7 +403,7 @@ export default function HomePage() {
           />
 
           <div className="mt-12 grid gap-6 lg:grid-cols-3">
-            {problemCards.map((card, index) => (
+            {problemCards.map((card) => (
               <div key={card.title} className="h-full">
                 <InfoCard {...card} />
               </div>
