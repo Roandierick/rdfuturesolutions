@@ -4,7 +4,6 @@ export type Ebook = {
   subtitle: string;
   description: string;
   price: number;
-  priceId?: string;
   pages: number;
   topics: string[];
   badge?: string;
@@ -18,7 +17,6 @@ export const ebooks = [
     description:
       "De praktische gids voor bakkers, loodgieters, elektriciens en andere ambachtslieden die AI willen gebruiken om hun bedrijf slimmer te runnen.",
     price: 11.99,
-    priceId: process.env.STRIPE_EBOOK_PRICE_ID,
     pages: 48,
     topics: [
       "Professionele website",

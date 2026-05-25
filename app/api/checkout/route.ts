@@ -59,7 +59,9 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!ebook.priceId) {
+    const priceId = process.env.STRIPE_EBOOK_PRICE_ID;
+
+    if (!priceId) {
       return NextResponse.json(
         { message: "Er is nog geen Stripe prijs gekoppeld aan dit ebook." },
         { status: 500 },
@@ -71,7 +73,7 @@ export async function POST(request: Request) {
       mode: "payment",
       line_items: [
         {
-          price: ebook.priceId,
+          price: priceId,
           quantity: 1,
         },
       ],
