@@ -12,6 +12,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^9.6.0",
     "googleapis": "^172.0.0",
+    "jspdf": "^4.2.1",
     "next": "14.2.35",
     "next-sitemap": "^4.2.3",
     "pdfkit": "^0.18.0",
