@@ -12,7 +12,7 @@ const stripe = process.env.STRIPE_SECRET_KEY
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const INTERNAL_EMAIL = "dierick.roan@gmail.com";
-const FROM_EMAIL = "RD Future Solutions <onboarding@resend.dev>";
+const FROM_EMAIL = "RD Future Solutions <info@rdfuturesolutions.be>";
 
 function escapeHtml(value: string) {
   return value
