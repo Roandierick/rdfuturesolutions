@@ -58,9 +58,9 @@ export async function GET(request: Request) {
 
     return new NextResponse(webStream, {
       headers: {
-        "content-type": "application/pdf",
+        "Content-Type": "application/pdf",
         "content-length": String(fileStats.size),
-        "content-disposition": `attachment; filename="${slug}.pdf"`,
+        "Content-Disposition": `attachment; filename="${slug}.pdf"`,
         "cache-control": "private, max-age=0, must-revalidate",
       },
     });

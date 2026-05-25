@@ -77,7 +77,7 @@ function buildCustomerEmailHtml({
     contentHtml: `
       <div style="margin: 24px 0;">
         <a
-          href="${escapeHtml(downloadUrl)}"
+          href="${downloadUrl}"
           style="display: inline-block; padding: 14px 22px; border-radius: 999px; background: linear-gradient(135deg, #00C8FF 0%, #2952CC 50%, #7B35E8 100%); color: #FFFFFF; font-size: 15px; font-weight: 700; text-decoration: none;"
         >
           Download je ebook
