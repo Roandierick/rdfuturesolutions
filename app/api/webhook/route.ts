@@ -1,4 +1,3 @@
-import PDFDocument from "pdfkit";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
@@ -15,7 +14,7 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 const INTERNAL_EMAIL = "dierick.roan@gmail.com";
 const FROM_EMAIL = "RD Future Solutions <info@rdfuturesolutions.be>";
 
-type GenerateInvoicePdfInput = {
+type GenerateInvoiceHtmlInput = {
   amountTotal: number;
   customerEmail: string;
   ebookTitle: string;
@@ -55,231 +54,194 @@ function generateInvoiceNumber(sessionId: string, invoiceDate: Date) {
   return `RDFS-${year}-${sessionSuffix}`;
 }
 
-async function generateInvoicePdf({
+function generateInvoiceHtml({
   amountTotal,
   customerEmail,
   ebookTitle,
   invoiceDate,
   invoiceNumber,
-}: GenerateInvoicePdfInput) {
+}: GenerateInvoiceHtmlInput) {
   const totalInclVat = roundCurrency(amountTotal / 100);
   const subtotalExclVat = roundCurrency(totalInclVat / 1.06);
   const vatAmount = roundCurrency(totalInclVat - subtotalExclVat);
   const invoiceDateLabel = formatBelgianDate(invoiceDate);
 
-  return await new Promise<Buffer>((resolve, reject) => {
-    const doc = new PDFDocument({
-      size: "A4",
-      margin: 50,
-      info: {
-        Title: `Factuur ${invoiceNumber}`,
-        Author: "RD Future Solutions",
-        Subject: `Factuur voor ${ebookTitle}`,
-        Creator: "RD Future Solutions",
-        Producer: "RD Future Solutions",
-        CreationDate: invoiceDate,
-      },
-    });
+  return `
+    <!doctype html>
+    <html lang="nl">
+      <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Factuur ${escapeHtml(invoiceNumber)}</title>
+      </head>
+      <body style="margin: 0; padding: 24px; background: #F5F7FF; font-family: Arial, Helvetica, sans-serif; color: #0F1526;">
+        <div style="max-width: 820px; margin: 0 auto; background: #FFFFFF; border: 1px solid #E2E7F5; border-radius: 20px; overflow: hidden;">
+          <div style="padding: 36px 40px 28px; border-bottom: 1px solid #E2E7F5; background: linear-gradient(180deg, #FFFFFF 0%, #FAFBFF 100%);">
+            <table role="presentation" style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="vertical-align: top;">
+                  <div style="font-size: 30px; line-height: 1.2; font-weight: 700; color: #0F1526;">
+                    RD Future Solutions
+                  </div>
+                </td>
+                <td style="vertical-align: top; text-align: right;">
+                  <div style="font-size: 32px; line-height: 1.2; font-weight: 700; color: #7B35E8;">
+                    FACTUUR
+                  </div>
+                </td>
+              </tr>
+            </table>
 
-    const chunks: Buffer[] = [];
-    const left = 50;
-    const right = doc.page.width - 50;
-    const contentWidth = right - left;
-    const purple = "#7B35E8";
-    const dark = "#0F1526";
-    const muted = "#667085";
-    const border = "#E2E7F5";
-    const light = "#F8FAFF";
-    const green = "#16A34A";
+            <table role="presentation" style="width: 100%; border-collapse: collapse; margin-top: 28px;">
+              <tr>
+                <td style="width: 50%; vertical-align: top;"></td>
+                <td style="width: 50%; vertical-align: top;">
+                  <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                      <td style="padding: 4px 0; font-size: 13px; color: #667085;">Factuurnummer</td>
+                      <td style="padding: 4px 0; font-size: 14px; font-weight: 700; text-align: right; color: #0F1526;">
+                        ${escapeHtml(invoiceNumber)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 4px 0; font-size: 13px; color: #667085;">Factuurdatum</td>
+                      <td style="padding: 4px 0; font-size: 14px; font-weight: 700; text-align: right; color: #0F1526;">
+                        ${escapeHtml(invoiceDateLabel)}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 4px 0; font-size: 13px; color: #667085;">Vervaldatum</td>
+                      <td style="padding: 4px 0; font-size: 14px; font-weight: 700; text-align: right; color: #0F1526;">
+                        ${escapeHtml(invoiceDateLabel)}
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
 
-    doc.on("data", (chunk) => {
-      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-    });
-    doc.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-    doc.on("error", reject);
+          <div style="padding: 32px 40px;">
+            <table role="presentation" style="width: 100%; border-collapse: separate; border-spacing: 0;">
+              <tr>
+                <td style="width: 50%; vertical-align: top; padding-right: 10px;">
+                  <div style="height: 100%; border: 1px solid #E2E7F5; border-radius: 16px; background: #F8FAFF; padding: 18px 20px;">
+                    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #667085; margin-bottom: 12px;">
+                      Verkoper
+                    </div>
+                    <div style="font-size: 18px; font-weight: 700; color: #0F1526; margin-bottom: 10px;">
+                      RD Future Solutions
+                    </div>
+                    <div style="font-size: 14px; line-height: 1.8; color: #0F1526;">
+                      ${escapeHtml(siteConfig.addressDisplay)}<br />
+                      ${escapeHtml(siteConfig.email)}<br />
+                      KBO: ${escapeHtml(siteConfig.kboDisplay)}
+                    </div>
+                  </div>
+                </td>
+                <td style="width: 50%; vertical-align: top; padding-left: 10px;">
+                  <div style="height: 100%; border: 1px solid #E2E7F5; border-radius: 16px; background: #F8FAFF; padding: 18px 20px;">
+                    <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #667085; margin-bottom: 12px;">
+                      Gefactureerd aan:
+                    </div>
+                    <div style="font-size: 16px; font-weight: 700; color: #0F1526; line-height: 1.7;">
+                      ${escapeHtml(customerEmail)}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
 
-    doc.fillColor(dark).font("Helvetica-Bold").fontSize(24).text("RD Future Solutions", left, 52);
-    doc
-      .fillColor(purple)
-      .font("Helvetica-Bold")
-      .fontSize(26)
-      .text("FACTUUR", right - 180, 52, { width: 180, align: "right" });
+            <div style="margin-top: 28px; border: 1px solid #E2E7F5; border-radius: 16px; overflow: hidden;">
+              <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                <thead>
+                  <tr style="background: #F4F6FF;">
+                    <th style="padding: 14px 16px; font-size: 12px; font-weight: 700; text-align: left; color: #667085; border-bottom: 1px solid #E2E7F5;">
+                      Omschrijving
+                    </th>
+                    <th style="padding: 14px 16px; font-size: 12px; font-weight: 700; text-align: right; color: #667085; border-bottom: 1px solid #E2E7F5;">
+                      Aantal
+                    </th>
+                    <th style="padding: 14px 16px; font-size: 12px; font-weight: 700; text-align: right; color: #667085; border-bottom: 1px solid #E2E7F5;">
+                      Eenheidsprijs excl. BTW
+                    </th>
+                    <th style="padding: 14px 16px; font-size: 12px; font-weight: 700; text-align: right; color: #667085; border-bottom: 1px solid #E2E7F5;">
+                      BTW %
+                    </th>
+                    <th style="padding: 14px 16px; font-size: 12px; font-weight: 700; text-align: right; color: #667085; border-bottom: 1px solid #E2E7F5;">
+                      Totaal incl. BTW
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="padding: 18px 16px; font-size: 14px; font-weight: 700; color: #0F1526; border-bottom: 1px solid #E2E7F5;">
+                      ${escapeHtml(ebookTitle)}
+                    </td>
+                    <td style="padding: 18px 16px; font-size: 14px; text-align: right; color: #0F1526; border-bottom: 1px solid #E2E7F5;">
+                      1
+                    </td>
+                    <td style="padding: 18px 16px; font-size: 14px; text-align: right; color: #0F1526; border-bottom: 1px solid #E2E7F5;">
+                      ${escapeHtml(formatEuroAmount(subtotalExclVat))}
+                    </td>
+                    <td style="padding: 18px 16px; font-size: 14px; text-align: right; color: #0F1526; border-bottom: 1px solid #E2E7F5;">
+                      6%
+                    </td>
+                    <td style="padding: 18px 16px; font-size: 14px; text-align: right; color: #0F1526; border-bottom: 1px solid #E2E7F5;">
+                      ${escapeHtml(formatEuroAmount(totalInclVat))}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
 
-    doc
-      .strokeColor(border)
-      .lineWidth(1)
-      .moveTo(left, 98)
-      .lineTo(right, 98)
-      .stroke();
+            <table role="presentation" style="width: 100%; border-collapse: collapse; margin-top: 28px;">
+              <tr>
+                <td style="width: 55%; vertical-align: top;">
+                  <div style="display: inline-block; padding: 10px 18px; border-radius: 999px; background: #ECFDF3; border: 1px solid #A6F4C5; font-size: 14px; font-weight: 700; color: #16A34A;">
+                    BETAALD
+                  </div>
+                </td>
+                <td style="width: 45%; vertical-align: top;">
+                  <div style="border: 1px solid #E2E7F5; border-radius: 16px; background: #F8FAFF; padding: 16px 18px;">
+                    <table role="presentation" style="width: 100%; border-collapse: collapse;">
+                      <tr>
+                        <td style="padding: 4px 0; font-size: 13px; color: #667085;">Subtotaal excl. BTW</td>
+                        <td style="padding: 4px 0; font-size: 14px; font-weight: 700; text-align: right; color: #0F1526;">
+                          ${escapeHtml(formatEuroAmount(subtotalExclVat))}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 4px 0; font-size: 13px; color: #667085;">BTW 6%</td>
+                        <td style="padding: 4px 0; font-size: 14px; font-weight: 700; text-align: right; color: #0F1526;">
+                          ${escapeHtml(formatEuroAmount(vatAmount))}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" style="padding: 6px 0;">
+                          <div style="height: 1px; background: #E2E7F5;"></div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 4px 0; font-size: 14px; font-weight: 700; color: #0F1526;">Totaal incl. BTW</td>
+                        <td style="padding: 4px 0; font-size: 15px; font-weight: 700; text-align: right; color: #0F1526;">
+                          ${escapeHtml(formatEuroAmount(totalInclVat))}
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
 
-    doc.fillColor(muted).font("Helvetica").fontSize(10);
-    doc.text("Factuurnummer", right - 200, 116, { width: 200, align: "right" });
-    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
-    doc.text(invoiceNumber, right - 200, 130, { width: 200, align: "right" });
-
-    doc.fillColor(muted).font("Helvetica").fontSize(10);
-    doc.text("Factuurdatum", right - 200, 150, { width: 200, align: "right" });
-    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
-    doc.text(invoiceDateLabel, right - 200, 164, { width: 200, align: "right" });
-
-    doc.fillColor(muted).font("Helvetica").fontSize(10);
-    doc.text("Vervaldatum", right - 200, 184, { width: 200, align: "right" });
-    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
-    doc.text(invoiceDateLabel, right - 200, 198, { width: 200, align: "right" });
-
-    const blockY = 245;
-    const blockWidth = (contentWidth - 20) / 2;
-    const blockHeight = 120;
-
-    doc.roundedRect(left, blockY, blockWidth, blockHeight, 12).fillAndStroke(light, border);
-    doc
-      .fillColor(muted)
-      .font("Helvetica-Bold")
-      .fontSize(10)
-      .text("Verkoper", left + 16, blockY + 14);
-    doc.fillColor(dark).font("Helvetica-Bold").fontSize(12).text("RD Future Solutions", left + 16, blockY + 34);
-    doc
-      .font("Helvetica")
-      .fontSize(10.5)
-      .fillColor(dark)
-      .text(siteConfig.addressDisplay, left + 16, blockY + 54, { width: blockWidth - 32 });
-    doc.text(siteConfig.email, left + 16, blockY + 72, { width: blockWidth - 32 });
-    doc.text(`KBO: ${siteConfig.kboDisplay}`, left + 16, blockY + 90, { width: blockWidth - 32 });
-
-    const customerBlockX = left + blockWidth + 20;
-
-    doc.roundedRect(customerBlockX, blockY, blockWidth, blockHeight, 12).fillAndStroke(light, border);
-    doc
-      .fillColor(muted)
-      .font("Helvetica-Bold")
-      .fontSize(10)
-      .text("Gefactureerd aan:", customerBlockX + 16, blockY + 14);
-    doc
-      .fillColor(dark)
-      .font("Helvetica-Bold")
-      .fontSize(12)
-      .text(customerEmail, customerBlockX + 16, blockY + 40, { width: blockWidth - 32 });
-
-    const tableY = blockY + blockHeight + 34;
-    const columnWidths = [175, 55, 105, 55, 105];
-    const columnLabels = [
-      "Omschrijving",
-      "Aantal",
-      "Eenheidsprijs excl. BTW",
-      "BTW %",
-      "Totaal incl. BTW",
-    ];
-    const rowValues = [
-      ebookTitle,
-      "1",
-      formatEuroAmount(subtotalExclVat),
-      "6%",
-      formatEuroAmount(totalInclVat),
-    ];
-    let currentX = left;
-
-    doc.roundedRect(left, tableY, contentWidth, 30, 10).fillAndStroke("#F4F6FF", border);
-
-    columnLabels.forEach((label, index) => {
-      const width = columnWidths[index];
-      const isRightAligned = index > 0;
-
-      doc
-        .fillColor(muted)
-        .font("Helvetica-Bold")
-        .fontSize(9)
-        .text(label, currentX + 10, tableY + 10, {
-          width: width - 20,
-          align: isRightAligned ? "right" : "left",
-        });
-
-      currentX += width;
-    });
-
-    const rowY = tableY + 36;
-
-    doc.roundedRect(left, rowY, contentWidth, 48, 10).fillAndStroke("#FFFFFF", border);
-
-    currentX = left;
-    rowValues.forEach((value, index) => {
-      const width = columnWidths[index];
-      const isRightAligned = index > 0;
-
-      doc
-        .fillColor(dark)
-        .font(index === 0 ? "Helvetica-Bold" : "Helvetica")
-        .fontSize(10.5)
-        .text(value, currentX + 10, rowY + 15, {
-          width: width - 20,
-          align: isRightAligned ? "right" : "left",
-        });
-
-      currentX += width;
-    });
-
-    const summaryY = rowY + 72;
-    const summaryWidth = 220;
-    const summaryX = right - summaryWidth;
-
-    doc.roundedRect(summaryX, summaryY, summaryWidth, 98, 12).fillAndStroke(light, border);
-
-    doc.fillColor(muted).font("Helvetica").fontSize(10);
-    doc.text("Subtotaal excl. BTW", summaryX + 16, summaryY + 16, { width: 110 });
-    doc
-      .fillColor(dark)
-      .font("Helvetica-Bold")
-      .text(formatEuroAmount(subtotalExclVat), summaryX + 126, summaryY + 16, {
-        width: 78,
-        align: "right",
-      });
-
-    doc.fillColor(muted).font("Helvetica").fontSize(10);
-    doc.text("BTW 6%", summaryX + 16, summaryY + 40, { width: 110 });
-    doc.fillColor(dark).font("Helvetica-Bold").text(formatEuroAmount(vatAmount), summaryX + 126, summaryY + 40, {
-      width: 78,
-      align: "right",
-    });
-
-    doc
-      .strokeColor(border)
-      .moveTo(summaryX + 16, summaryY + 64)
-      .lineTo(summaryX + summaryWidth - 16, summaryY + 64)
-      .stroke();
-
-    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
-    doc.text("Totaal incl. BTW", summaryX + 16, summaryY + 74, { width: 110 });
-    doc.text(formatEuroAmount(totalInclVat), summaryX + 126, summaryY + 74, {
-      width: 78,
-      align: "right",
-    });
-
-    const statusY = summaryY + 132;
-
-    doc
-      .roundedRect(left, statusY, 120, 30, 15)
-      .fillAndStroke("#ECFDF3", "#A6F4C5");
-    doc
-      .fillColor(green)
-      .font("Helvetica-Bold")
-      .fontSize(12)
-      .text("BETAALD", left, statusY + 9, {
-        width: 120,
-        align: "center",
-      });
-
-    doc
-      .fillColor(muted)
-      .font("Helvetica")
-      .fontSize(10)
-      .text(`Bedankt voor je aankoop. Voor vragen: ${siteConfig.email}`, left, doc.page.height - 72, {
-        width: contentWidth,
-        align: "center",
-      });
-
-    doc.end();
-  });
+          <div style="padding: 22px 40px; border-top: 1px solid #E2E7F5; background: #FAFBFF; font-size: 13px; line-height: 1.8; text-align: center; color: #667085;">
+            Bedankt voor je aankoop. Voor vragen: ${escapeHtml(siteConfig.email)}
+          </div>
+        </div>
+      </body>
+    </html>
+  `;
 }
 
 function buildEmailLayout({
@@ -475,13 +437,14 @@ export async function POST(request: Request) {
       });
       const invoiceDate = new Date();
       const invoiceNumber = generateInvoiceNumber(session.id, invoiceDate);
-      const invoiceBuffer = await generateInvoicePdf({
+      const invoiceHtml = generateInvoiceHtml({
         amountTotal,
         customerEmail,
         ebookTitle,
         invoiceDate,
         invoiceNumber,
       });
+      const invoiceAttachmentContent = Buffer.from(invoiceHtml, "utf-8").toString("base64");
 
       console.log("Gegenereerde factuur:", invoiceNumber);
 
@@ -496,9 +459,9 @@ export async function POST(request: Request) {
         sessionId: session.id,
       });
       const invoiceAttachment = {
-        filename: `factuur-${invoiceNumber}.pdf`,
-        content: invoiceBuffer,
-        contentType: "application/pdf",
+        filename: `factuur-${invoiceNumber}.html`,
+        content: invoiceAttachmentContent,
+        contentType: "text/html",
       };
 
       const internalResult = await resend.emails.send({
