@@ -1,3 +1,4 @@
+import PDFDocument from "pdfkit";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import Stripe from "stripe";
@@ -14,6 +15,14 @@ const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KE
 const INTERNAL_EMAIL = "dierick.roan@gmail.com";
 const FROM_EMAIL = "RD Future Solutions <info@rdfuturesolutions.be>";
 
+type GenerateInvoicePdfInput = {
+  amountTotal: number;
+  customerEmail: string;
+  ebookTitle: string;
+  invoiceDate: Date;
+  invoiceNumber: string;
+};
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -21,6 +30,256 @@ function escapeHtml(value: string) {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+function formatBelgianDate(date: Date) {
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = String(date.getFullYear());
+
+  return `${day}/${month}/${year}`;
+}
+
+function roundCurrency(value: number) {
+  return Math.round((value + Number.EPSILON) * 100) / 100;
+}
+
+function formatEuroAmount(value: number) {
+  return `€ ${value.toFixed(2).replace(".", ",")}`;
+}
+
+function generateInvoiceNumber(sessionId: string, invoiceDate: Date) {
+  const year = invoiceDate.getFullYear();
+  const sessionSuffix = sessionId.slice(-6);
+
+  return `RDFS-${year}-${sessionSuffix}`;
+}
+
+async function generateInvoicePdf({
+  amountTotal,
+  customerEmail,
+  ebookTitle,
+  invoiceDate,
+  invoiceNumber,
+}: GenerateInvoicePdfInput) {
+  const totalInclVat = roundCurrency(amountTotal / 100);
+  const subtotalExclVat = roundCurrency(totalInclVat / 1.06);
+  const vatAmount = roundCurrency(totalInclVat - subtotalExclVat);
+  const invoiceDateLabel = formatBelgianDate(invoiceDate);
+
+  return await new Promise<Buffer>((resolve, reject) => {
+    const doc = new PDFDocument({
+      size: "A4",
+      margin: 50,
+      info: {
+        Title: `Factuur ${invoiceNumber}`,
+        Author: "RD Future Solutions",
+        Subject: `Factuur voor ${ebookTitle}`,
+        Creator: "RD Future Solutions",
+        Producer: "RD Future Solutions",
+        CreationDate: invoiceDate,
+      },
+    });
+
+    const chunks: Buffer[] = [];
+    const left = 50;
+    const right = doc.page.width - 50;
+    const contentWidth = right - left;
+    const purple = "#7B35E8";
+    const dark = "#0F1526";
+    const muted = "#667085";
+    const border = "#E2E7F5";
+    const light = "#F8FAFF";
+    const green = "#16A34A";
+
+    doc.on("data", (chunk) => {
+      chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+    });
+    doc.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    doc.on("error", reject);
+
+    doc.fillColor(dark).font("Helvetica-Bold").fontSize(24).text("RD Future Solutions", left, 52);
+    doc
+      .fillColor(purple)
+      .font("Helvetica-Bold")
+      .fontSize(26)
+      .text("FACTUUR", right - 180, 52, { width: 180, align: "right" });
+
+    doc
+      .strokeColor(border)
+      .lineWidth(1)
+      .moveTo(left, 98)
+      .lineTo(right, 98)
+      .stroke();
+
+    doc.fillColor(muted).font("Helvetica").fontSize(10);
+    doc.text("Factuurnummer", right - 200, 116, { width: 200, align: "right" });
+    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
+    doc.text(invoiceNumber, right - 200, 130, { width: 200, align: "right" });
+
+    doc.fillColor(muted).font("Helvetica").fontSize(10);
+    doc.text("Factuurdatum", right - 200, 150, { width: 200, align: "right" });
+    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
+    doc.text(invoiceDateLabel, right - 200, 164, { width: 200, align: "right" });
+
+    doc.fillColor(muted).font("Helvetica").fontSize(10);
+    doc.text("Vervaldatum", right - 200, 184, { width: 200, align: "right" });
+    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
+    doc.text(invoiceDateLabel, right - 200, 198, { width: 200, align: "right" });
+
+    const blockY = 245;
+    const blockWidth = (contentWidth - 20) / 2;
+    const blockHeight = 120;
+
+    doc.roundedRect(left, blockY, blockWidth, blockHeight, 12).fillAndStroke(light, border);
+    doc
+      .fillColor(muted)
+      .font("Helvetica-Bold")
+      .fontSize(10)
+      .text("Verkoper", left + 16, blockY + 14);
+    doc.fillColor(dark).font("Helvetica-Bold").fontSize(12).text("RD Future Solutions", left + 16, blockY + 34);
+    doc
+      .font("Helvetica")
+      .fontSize(10.5)
+      .fillColor(dark)
+      .text(siteConfig.addressDisplay, left + 16, blockY + 54, { width: blockWidth - 32 });
+    doc.text(siteConfig.email, left + 16, blockY + 72, { width: blockWidth - 32 });
+    doc.text(`KBO: ${siteConfig.kboDisplay}`, left + 16, blockY + 90, { width: blockWidth - 32 });
+
+    const customerBlockX = left + blockWidth + 20;
+
+    doc.roundedRect(customerBlockX, blockY, blockWidth, blockHeight, 12).fillAndStroke(light, border);
+    doc
+      .fillColor(muted)
+      .font("Helvetica-Bold")
+      .fontSize(10)
+      .text("Gefactureerd aan:", customerBlockX + 16, blockY + 14);
+    doc
+      .fillColor(dark)
+      .font("Helvetica-Bold")
+      .fontSize(12)
+      .text(customerEmail, customerBlockX + 16, blockY + 40, { width: blockWidth - 32 });
+
+    const tableY = blockY + blockHeight + 34;
+    const columnWidths = [175, 55, 105, 55, 105];
+    const columnLabels = [
+      "Omschrijving",
+      "Aantal",
+      "Eenheidsprijs excl. BTW",
+      "BTW %",
+      "Totaal incl. BTW",
+    ];
+    const rowValues = [
+      ebookTitle,
+      "1",
+      formatEuroAmount(subtotalExclVat),
+      "6%",
+      formatEuroAmount(totalInclVat),
+    ];
+    let currentX = left;
+
+    doc.roundedRect(left, tableY, contentWidth, 30, 10).fillAndStroke("#F4F6FF", border);
+
+    columnLabels.forEach((label, index) => {
+      const width = columnWidths[index];
+      const isRightAligned = index > 0;
+
+      doc
+        .fillColor(muted)
+        .font("Helvetica-Bold")
+        .fontSize(9)
+        .text(label, currentX + 10, tableY + 10, {
+          width: width - 20,
+          align: isRightAligned ? "right" : "left",
+        });
+
+      currentX += width;
+    });
+
+    const rowY = tableY + 36;
+
+    doc.roundedRect(left, rowY, contentWidth, 48, 10).fillAndStroke("#FFFFFF", border);
+
+    currentX = left;
+    rowValues.forEach((value, index) => {
+      const width = columnWidths[index];
+      const isRightAligned = index > 0;
+
+      doc
+        .fillColor(dark)
+        .font(index === 0 ? "Helvetica-Bold" : "Helvetica")
+        .fontSize(10.5)
+        .text(value, currentX + 10, rowY + 15, {
+          width: width - 20,
+          align: isRightAligned ? "right" : "left",
+        });
+
+      currentX += width;
+    });
+
+    const summaryY = rowY + 72;
+    const summaryWidth = 220;
+    const summaryX = right - summaryWidth;
+
+    doc.roundedRect(summaryX, summaryY, summaryWidth, 98, 12).fillAndStroke(light, border);
+
+    doc.fillColor(muted).font("Helvetica").fontSize(10);
+    doc.text("Subtotaal excl. BTW", summaryX + 16, summaryY + 16, { width: 110 });
+    doc
+      .fillColor(dark)
+      .font("Helvetica-Bold")
+      .text(formatEuroAmount(subtotalExclVat), summaryX + 126, summaryY + 16, {
+        width: 78,
+        align: "right",
+      });
+
+    doc.fillColor(muted).font("Helvetica").fontSize(10);
+    doc.text("BTW 6%", summaryX + 16, summaryY + 40, { width: 110 });
+    doc.fillColor(dark).font("Helvetica-Bold").text(formatEuroAmount(vatAmount), summaryX + 126, summaryY + 40, {
+      width: 78,
+      align: "right",
+    });
+
+    doc
+      .strokeColor(border)
+      .moveTo(summaryX + 16, summaryY + 64)
+      .lineTo(summaryX + summaryWidth - 16, summaryY + 64)
+      .stroke();
+
+    doc.fillColor(dark).font("Helvetica-Bold").fontSize(11);
+    doc.text("Totaal incl. BTW", summaryX + 16, summaryY + 74, { width: 110 });
+    doc.text(formatEuroAmount(totalInclVat), summaryX + 126, summaryY + 74, {
+      width: 78,
+      align: "right",
+    });
+
+    const statusY = summaryY + 132;
+
+    doc
+      .roundedRect(left, statusY, 120, 30, 15)
+      .fillAndStroke("#ECFDF3", "#A6F4C5");
+    doc
+      .fillColor(green)
+      .font("Helvetica-Bold")
+      .fontSize(12)
+      .text("BETAALD", left, statusY + 9, {
+        width: 120,
+        align: "center",
+      });
+
+    doc
+      .fillColor(muted)
+      .font("Helvetica")
+      .fontSize(10)
+      .text(`Bedankt voor je aankoop. Voor vragen: ${siteConfig.email}`, left, doc.page.height - 72, {
+        width: contentWidth,
+        align: "center",
+      });
+
+    doc.end();
+  });
 }
 
 function buildEmailLayout({
@@ -83,6 +342,10 @@ function buildCustomerEmailHtml({
           Download je ebook
         </a>
       </div>
+
+      <p style="margin: -8px 0 20px; color: #3D4A6B; font-size: 15px; line-height: 1.8;">
+        Je factuur vind je als bijlage in deze e-mail.
+      </p>
 
       <div style="margin: 24px 0; padding: 20px; background: #F8FAFF; border: 1px solid #E2E7F5; border-radius: 14px;">
         ${buildInfoRow("Downloadlink", "48 uur geldig")}
@@ -184,6 +447,7 @@ export async function POST(request: Request) {
         "";
       const slug = session.metadata?.slug;
       const ebookTitle = session.metadata?.ebook_title ?? "Je ebook";
+      const amountTotal = session.amount_total;
 
       console.log("Stripe webhook gevonden e-mailadres:", customerEmail);
 
@@ -193,6 +457,10 @@ export async function POST(request: Request) {
 
       if (!customerEmail) {
         throw new Error("Geen klant e-mailadres gevonden in de Stripe sessie.");
+      }
+
+      if (typeof amountTotal !== "number") {
+        throw new Error("Geen bedrag gevonden in de Stripe sessie.");
       }
 
       const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? siteConfig.siteUrl;
@@ -205,6 +473,18 @@ export async function POST(request: Request) {
         expires,
         baseUrl,
       });
+      const invoiceDate = new Date();
+      const invoiceNumber = generateInvoiceNumber(session.id, invoiceDate);
+      const invoiceBuffer = await generateInvoicePdf({
+        amountTotal,
+        customerEmail,
+        ebookTitle,
+        invoiceDate,
+        invoiceNumber,
+      });
+
+      console.log("Gegenereerde factuur:", invoiceNumber);
+
       const customerHtml = buildCustomerEmailHtml({
         ebookTitle,
         downloadUrl,
@@ -215,6 +495,11 @@ export async function POST(request: Request) {
         downloadUrl,
         sessionId: session.id,
       });
+      const invoiceAttachment = {
+        filename: `factuur-${invoiceNumber}.pdf`,
+        content: invoiceBuffer,
+        contentType: "application/pdf",
+      };
 
       const internalResult = await resend.emails.send({
         from: FROM_EMAIL,
@@ -222,6 +507,7 @@ export async function POST(request: Request) {
         replyTo: siteConfig.email,
         subject: `Nieuwe ebook verkoop — ${ebookTitle}`,
         html: internalHtml,
+        attachments: [invoiceAttachment],
       });
 
       console.log("Resend internal result:", JSON.stringify(internalResult, null, 2));
@@ -232,6 +518,7 @@ export async function POST(request: Request) {
         replyTo: siteConfig.email,
         subject: `Je download is klaar — ${ebookTitle}`,
         html: customerHtml,
+        attachments: [invoiceAttachment],
       });
 
       console.log("Resend customer result:", JSON.stringify(customerResult, null, 2));
