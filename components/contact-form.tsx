@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState } from "react";
 import { buttonClassName } from "@/components/button-link";
 import { MailIcon } from "@/components/icons";
 import { siteConfig } from "@/lib/site";
@@ -35,83 +35,27 @@ const initialFormState: FormState = {
   omschrijving: "",
 };
 
-function buildOmschrijving(formData: FormState) {
-  const introLines = [
-    formData.bedrijfsnaam ? `Bedrijfsnaam: ${formData.bedrijfsnaam}` : null,
-    `Locatie / gemeente: ${formData.locatie}`,
-  ].filter((value): value is string => Boolean(value));
-
-  return [...introLines, "", formData.omschrijving.trim()].join("\n");
-}
-
-function buildPayload(formData: FormState) {
-  return {
-    naam: formData.naam,
-    email: formData.email,
-    telefoon: formData.telefoon,
-    typeProject: formData.dienst,
-    dienst: formData.dienst,
-    bedrijfsnaam: formData.bedrijfsnaam,
-    locatie: formData.locatie,
-    omschrijving: buildOmschrijving(formData),
-  };
-}
-
 export function ContactForm() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
-  const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(
-    null,
-  );
-  const [isPending, startTransition] = useTransition();
+  const [isValid, setIsValid] = useState(false);
+
+  useEffect(() => {
+    const requiredFields = [
+      formData.naam,
+      formData.email,
+      formData.locatie,
+      formData.omschrijving,
+    ];
+
+    setIsValid(requiredFields.every((value) => value.trim().length > 0));
+  }, [formData.email, formData.locatie, formData.naam, formData.omschrijving]);
 
   function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setFormData((current) => ({ ...current, [key]: value }));
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setFeedback(null);
-
-    startTransition(async () => {
-      try {
-        const response = await fetch("/api/contact", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(buildPayload(formData)),
-        });
-
-        const data = (await response.json()) as { message?: string };
-
-        if (!response.ok) {
-          throw new Error(
-            data.message ?? "Er ging iets mis. Probeer het opnieuw of mail ons rechtstreeks.",
-          );
-        }
-
-        setFeedback({
-          type: "success",
-          message: "Bedankt! We nemen zo snel mogelijk contact met je op.",
-        });
-        setFormData(initialFormState);
-      } catch (error) {
-        setFeedback({
-          type: "error",
-          message:
-            error instanceof Error
-              ? error.message
-              : "Er ging iets mis. Probeer het opnieuw of mail ons rechtstreeks.",
-        });
-      }
-    });
-  }
-
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rd-card border-l-[3px] border-l-[var(--rd-blue)] p-6 md:p-8"
-    >
+    <div role="form" className="rd-card border-l-[3px] border-l-[var(--rd-blue)] p-6 md:p-8">
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <label className="block">
           <span className="block text-[0.85rem] font-medium text-[var(--rd-text-body)]">Naam</span>
@@ -207,29 +151,23 @@ export function ContactForm() {
       </div>
 
       <button
-        type="submit"
-        disabled={isPending}
+        disabled={!isValid}
+        aria-disabled={!isValid}
+        onClick={() => {
+          if (!isValid) {
+            return;
+          }
+
+          window.open("https://calendly.com/rdfuturesolutions-info/30min", "_blank");
+        }}
         className={buttonClassName(
           "primary",
           "lg",
-          "mt-8 w-full disabled:cursor-not-allowed disabled:opacity-80",
+          cn("mt-8 w-full", !isValid && "opacity-50 cursor-not-allowed pointer-events-none"),
         )}
       >
-        {isPending ? "Aanvraag wordt verstuurd..." : "Verstuur aanvraag"}
+        Boek gratis gesprek
       </button>
-
-      {feedback ? (
-        <p
-          className={cn(
-            "mt-6 border-l-[3px] px-4 py-3 text-sm leading-6",
-            feedback.type === "success"
-              ? "border-l-[var(--rd-blue)] bg-[rgba(41,82,204,0.08)] text-[var(--rd-blue)]"
-              : "border-l-[var(--rd-purple)] bg-[rgba(123,53,232,0.08)] text-[var(--rd-purple)]",
-          )}
-        >
-          {feedback.message}
-        </p>
-      ) : null}
 
       <p className="mt-6 flex flex-col items-start gap-2 text-sm text-[var(--rd-text-muted)] sm:flex-row sm:items-center">
         <MailIcon className="h-4 w-4 flex-none" />
@@ -244,6 +182,6 @@ export function ContactForm() {
           .
         </span>
       </p>
-    </form>
+    </div>
   );
 }

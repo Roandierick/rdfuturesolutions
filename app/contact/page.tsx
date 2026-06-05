@@ -6,6 +6,24 @@ import { SectionHeading } from "@/components/section-heading";
 import { createMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site";
 
+function VideoCameraIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="h-5 w-5"
+      aria-hidden="true"
+    >
+      <rect x="3" y="7" width="12" height="10" rx="2" />
+      <path d="m15 10 6-3v10l-6-3" />
+    </svg>
+  );
+}
+
 export const metadata = createMetadata({
   title: "Contact | Boek een gratis AI-adviesgesprek — RD Future Solutions",
   description:
@@ -19,7 +37,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Boek een gratis AI-adviesgesprek"
-        description="Vertel ons wat je wilt bereiken. Wij komen bij jou ter plaatse en bekijken samen wat AI concreet kan betekenen voor jouw bedrijf — zonder verplichtingen."
+        description="Vertel ons wat je wilt bereiken. We plannen een gratis videogesprek via Google Meet en bekijken samen wat AI concreet kan betekenen voor jouw bedrijf — zonder verplichtingen."
         primaryCta={{ href: "#lead-form", label: "Start je aanvraag" }}
         secondaryCta={{ href: "/prijzen", label: "Bekijk de prijzen" }}
       />
@@ -31,7 +49,7 @@ export default function ContactPage() {
               <SectionHeading
                 eyebrow="Gratis gesprek"
                 title="Vertel ons over jouw bedrijf"
-                description="Vul het formulier in. Wij reviewen jouw aanvraag en sturen je 3 beschikbare momenten door waarop Roan bij jou langs kan komen."
+                description="Vul het formulier in en boek meteen een gratis kennismakingsgesprek. Na het boeken ontvang je een bevestigingsmail met de Google Meet link."
               />
 
               <div className="relative overflow-hidden bg-[var(--rd-bg-soft)] px-6 py-7 sm:px-7">
@@ -40,8 +58,6 @@ export default function ContactPage() {
 
                 <div className="mt-5 space-y-4 text-sm leading-7 text-[var(--rd-text-body)] sm:text-base">
                   <p>{siteConfig.name}</p>
-                  <p>{siteConfig.addressDisplay}</p>
-                  <p>KBO {siteConfig.kboDisplay}</p>
                   <a
                     href={`tel:${siteConfig.phone}`}
                     className="flex items-start gap-3 hover:text-[var(--rd-blue)]"
@@ -66,13 +82,13 @@ export default function ContactPage() {
                   <div className="border-b border-[var(--rd-border)] pb-4">
                     <h3 className="flex items-center gap-3">
                       <span className="rd-icon-square h-10 w-10">
-                        <PhoneIcon />
+                        <VideoCameraIcon />
                       </span>
-                      Persoonlijk gesprek bij jou
+                      Online videogesprek via Google Meet
                     </h3>
                     <p className="mt-3 text-sm leading-7 sm:text-base">
-                      Roan komt bij jou ter plaatse. Geen videocall, geen bureau — gewoon een
-                      eerlijk gesprek op jouw locatie over wat AI voor jouw bedrijf kan doen.
+                      Roan plant een videogesprek met jou via Google Meet. Geen verplaatsing nodig
+                      — gewoon een eerlijk gesprek over wat AI voor jouw bedrijf kan doen.
                     </p>
                   </div>
 
@@ -81,11 +97,12 @@ export default function ContactPage() {
                       <span className="rd-icon-square h-10 w-10">
                         <ClockIcon />
                       </span>
-                      3 voorgestelde momenten
+                      Kies zelf je moment
                     </h3>
                     <p className="mt-3 text-sm leading-7 sm:text-base">
-                      Na je aanvraag ontvang je automatisch een mail met 3 beschikbare tijdsslots.
-                      Jij kiest wat past, wij bevestigen.
+                      Na het invullen van het formulier kies je meteen een beschikbaar tijdstip. Je
+                      ontvangt een bevestigingsmail met de Google Meet link die je direct in je
+                      agenda kunt zetten.
                     </p>
                   </div>
 

@@ -24,6 +24,23 @@ type GenerateInvoicePdfInput = {
   invoiceNumber: string;
 };
 
+type InternalEmailDetails = {
+  ebookTitle: string;
+  customerEmail: string;
+  customerType: string;
+  downloadUrl: string;
+  sessionId: string;
+  voornaam: string;
+  achternaam: string;
+  telefoon: string;
+  straat: string;
+  postcode: string;
+  gemeente: string;
+  land: string;
+  bedrijfsnaam: string;
+  btwNummer: string;
+};
+
 function escapeHtml(value: string) {
   return value
     .replace(/&/g, "&amp;")
@@ -132,12 +149,11 @@ function generateInvoicePdf({
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
-  const sellerLines = [
-    siteConfig.addressDisplay,
-    siteConfig.email,
-    `KBO: ${siteConfig.kboDisplay}`,
-  ];
-  doc.text(sellerLines, left + 4, 84);
+  doc.text(
+    [siteConfig.addressDisplay, siteConfig.email, `KBO: ${siteConfig.kboDisplay}`],
+    left + 4,
+    84,
+  );
 
   const tableTop = 110;
   const columns = [left, 88, 107, 146, 163, right];
@@ -168,7 +184,9 @@ function generateInvoicePdf({
 
   doc.setFont("helvetica", "normal");
   doc.text("1", columns[2] - 3, tableTop + 22, { align: "right" });
-  doc.text(formatEuroAmount(subtotalExclVat), columns[3] - 3, tableTop + 22, { align: "right" });
+  doc.text(formatEuroAmount(subtotalExclVat), columns[3] - 3, tableTop + 22, {
+    align: "right",
+  });
   doc.text("6%", columns[4] - 3, tableTop + 22, { align: "right" });
   doc.text(formatEuroAmount(totalInclVat), right - 3, tableTop + 22, { align: "right" });
 
@@ -311,14 +329,23 @@ function buildCustomerEmailHtml({
 function buildInternalEmailHtml({
   ebookTitle,
   customerEmail,
+  customerType,
   downloadUrl,
   sessionId,
-}: {
-  ebookTitle: string;
-  customerEmail: string;
-  downloadUrl: string;
-  sessionId: string;
-}) {
+  voornaam,
+  achternaam,
+  telefoon,
+  straat,
+  postcode,
+  gemeente,
+  land,
+  bedrijfsnaam,
+  btwNummer,
+}: InternalEmailDetails) {
+  const fullName = `${voornaam} ${achternaam}`.trim();
+  const address = [straat, `${postcode} ${gemeente}`.trim(), land].filter(Boolean).join(", ");
+  const isBusiness = customerType === "bedrijf";
+
   return buildEmailLayout({
     title: "Nieuwe ebook verkoop",
     introHtml: `
@@ -329,9 +356,26 @@ function buildInternalEmailHtml({
     contentHtml: `
       <div style="width: 100%;">
         ${buildInfoRow("Ebook", ebookTitle)}
-        ${buildInfoRow("Klant", customerEmail || "Niet gevonden")}
+        ${buildInfoRow("Klanttype", customerType || "Onbekend")}
+        ${buildInfoRow("Naam", fullName || "Niet gevonden")}
+        ${buildInfoRow("E-mailadres", customerEmail || "Niet gevonden")}
+        ${buildInfoRow("Telefoonnummer", telefoon || "Niet gevonden")}
+        ${buildInfoRow("Adres", address || "Niet gevonden")}
+        ${isBusiness && bedrijfsnaam ? buildInfoRow("Bedrijfsnaam", bedrijfsnaam) : ""}
+        ${isBusiness && btwNummer ? buildInfoRow("BTW-nummer", btwNummer) : ""}
         ${buildInfoRow("Downloadlink", downloadUrl)}
         ${buildInfoRow("Stripe sessie", sessionId)}
+      </div>
+
+      <div style="margin-top: 24px; padding: 20px; background: #F8FAFF; border: 1px solid #E2E7F5; border-radius: 14px;">
+        <p style="margin: 0 0 10px; color: #0F1526; font-size: 15px; font-weight: 700;">Facturatie</p>
+        <p style="margin: 0 0 10px; color: #3D4A6B; font-size: 14px; line-height: 1.8;">
+          PLACEHOLDER — Dexxter API integratie komt later
+        </p>
+        <p style="margin: 0; color: #3D4A6B; font-size: 14px; line-height: 1.8;">
+          Klanttype: ${escapeHtml(customerType || "onbekend")}<br />
+          BTW-nummer: ${escapeHtml(isBusiness && btwNummer ? btwNummer : "niet van toepassing")}
+        </p>
       </div>
     `,
   });
@@ -394,6 +438,16 @@ export async function POST(request: Request) {
       const slug = session.metadata?.slug;
       const ebookTitle = session.metadata?.ebook_title ?? "Je ebook";
       const amountTotal = session.amount_total;
+      const customerType = session.metadata?.customer_type ?? "";
+      const voornaam = session.metadata?.voornaam ?? "";
+      const achternaam = session.metadata?.achternaam ?? "";
+      const telefoon = session.metadata?.telefoon ?? "";
+      const straat = session.metadata?.straat ?? "";
+      const postcode = session.metadata?.postcode ?? "";
+      const gemeente = session.metadata?.gemeente ?? "";
+      const land = session.metadata?.land ?? "";
+      const bedrijfsnaam = session.metadata?.bedrijfsnaam ?? "";
+      const btwNummer = session.metadata?.btw_nummer ?? "";
 
       console.log("Stripe webhook gevonden e-mailadres:", customerEmail);
 
@@ -438,8 +492,18 @@ export async function POST(request: Request) {
       const internalHtml = buildInternalEmailHtml({
         ebookTitle,
         customerEmail,
+        customerType,
         downloadUrl,
         sessionId: session.id,
+        voornaam,
+        achternaam,
+        telefoon,
+        straat,
+        postcode,
+        gemeente,
+        land,
+        bedrijfsnaam,
+        btwNummer,
       });
       const invoiceAttachment = {
         filename: `factuur-${invoiceNumber}.pdf`,

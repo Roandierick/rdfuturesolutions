@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.rdfuturesolutions.be";
-const ebookPaths = ["/ebooks", "/ebooks/ai-voor-de-vakman"];
+const indexedPaths = ["/ebooks", "/ebooks/ai-voor-de-vakman", "/privacy"];
 
 const config = {
   siteUrl,
@@ -9,7 +9,7 @@ const config = {
   priority: 0.7,
   exclude: ["/api/*"],
   additionalPaths: async () =>
-    ebookPaths.map((loc) => ({
+    indexedPaths.map((loc) => ({
       loc,
       changefreq: "weekly",
       priority: loc === "/ebooks" ? 0.85 : 0.8,

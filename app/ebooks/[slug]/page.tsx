@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ButtonLink } from "@/components/button-link";
-import { EbookCheckoutButton } from "@/components/ebook-checkout-button";
 import { CheckIcon } from "@/components/icons";
 import { SectionHeading } from "@/components/section-heading";
 import { StructuredData } from "@/components/structured-data";
@@ -151,7 +150,7 @@ export default function EbookDetailPage({ params }: EbookDetailPageProps) {
 
               <div className="mt-8 flex flex-wrap gap-3">
                 <span className="inline-flex rounded-full border border-[var(--rd-border)] bg-white/80 px-4 py-2 text-sm font-medium text-[var(--rd-text)]">
-                  {ebook.pages} pagina’s
+                  50+ pagina’s
                 </span>
                 <span className="inline-flex rounded-full border border-[var(--rd-border)] bg-white/80 px-4 py-2 text-sm font-medium text-[var(--rd-text)]">
                   Directe PDF download
@@ -162,25 +161,20 @@ export default function EbookDetailPage({ params }: EbookDetailPageProps) {
               </div>
             </div>
 
-            <aside
-              id="koop-ebook"
-              className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white/95 p-6 shadow-[0_24px_80px_rgba(41,82,204,0.12)] backdrop-blur sm:p-7 lg:sticky lg:top-32"
-            >
+            <aside className="rd-card border-l-[3px] border-l-[var(--rd-purple)] bg-white/95 p-6 shadow-[0_24px_80px_rgba(41,82,204,0.12)] backdrop-blur sm:p-7 lg:sticky lg:top-32">
               <p className="mono-label text-[var(--rd-purple)]">Koop direct</p>
               <p className="mt-4 text-[2.6rem] font-semibold leading-none text-[var(--rd-text)]">
                 {formatEbookPrice(ebook.price)}
               </p>
               <p className="mt-3 text-sm leading-7 sm:text-base">
-                {ebook.pages} pagina’s met praktische voorbeelden en duidelijke toepassingen voor
-                ondernemers die snel resultaat willen.
+                50+ pagina’s met praktische voorbeelden en duidelijke toepassingen voor ondernemers
+                die snel resultaat willen.
               </p>
 
               <div className="mt-6">
-                <EbookCheckoutButton
-                  slug={ebook.slug}
-                  label={`Koop nu — ${formatEbookPrice(ebook.price)}`}
-                  className="w-full"
-                />
+                <ButtonLink href={`/ebooks/${ebook.slug}/checkout`} size="lg" className="w-full">
+                  Koop nu — {formatEbookPrice(ebook.price)}
+                </ButtonLink>
               </div>
 
               <ul className="mt-6 space-y-3">
@@ -262,7 +256,7 @@ export default function EbookDetailPage({ params }: EbookDetailPageProps) {
               </ul>
 
               <div className="mt-8 flex flex-col gap-4">
-                <ButtonLink href="#koop-ebook" size="lg">
+                <ButtonLink href={`/ebooks/${ebook.slug}/checkout`} size="lg">
                   Koop nu — {formatEbookPrice(ebook.price)}
                 </ButtonLink>
                 <ButtonLink href="/contact" variant="secondary" size="lg">

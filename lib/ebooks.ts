@@ -16,8 +16,8 @@ export const ebooks = [
     subtitle: "Meer tijd, meer klanten, minder gedoe",
     description:
       "De praktische gids voor bakkers, loodgieters, elektriciens en andere ambachtslieden die AI willen gebruiken om hun bedrijf slimmer te runnen.",
-    price: 11.99,
-    pages: 48,
+    price: 29.99,
+    pages: 50,
     topics: [
       "Professionele website",
       "Slimme agenda",
