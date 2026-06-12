@@ -13,7 +13,7 @@ const SLOT_DURATION_MINUTES = 60;
 const SLOT_COUNT = 3;
 const WORKDAY_START_HOUR = 9;
 const WORKDAY_END_HOUR = 17;
-const INTERNAL_EMAIL = "dierick.roan@gmail.com";
+const INTERNAL_EMAIL = "info@rdfuturesolutions.be";
 const FROM_EMAIL = "RD Future Solutions <onboarding@resend.dev>";
 const ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
 
