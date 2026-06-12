@@ -38,6 +38,7 @@ const initialFormState: FormState = {
 export function ContactForm() {
   const [formData, setFormData] = useState<FormState>(initialFormState);
   const [isValid, setIsValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     const requiredFields = [
@@ -52,6 +53,36 @@ export function ContactForm() {
 
   function updateField<K extends keyof FormState>(key: K, value: FormState[K]) {
     setFormData((current) => ({ ...current, [key]: value }));
+  }
+
+  async function handleCalendlyClick() {
+    if (!isValid || isSubmitting) {
+      return;
+    }
+
+    const calendlyWindow = window.open("", "_blank");
+
+    if (!calendlyWindow) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+    } catch (error) {
+      console.error("Contact form pre-Calendly request failed:", error);
+    } finally {
+      calendlyWindow.location.href = "https://calendly.com/rdfuturesolutions-info/30min";
+      calendlyWindow.focus();
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -151,19 +182,16 @@ export function ContactForm() {
       </div>
 
       <button
-        disabled={!isValid}
-        aria-disabled={!isValid}
-        onClick={() => {
-          if (!isValid) {
-            return;
-          }
-
-          window.open("https://calendly.com/rdfuturesolutions-info/30min", "_blank");
-        }}
+        disabled={!isValid || isSubmitting}
+        aria-disabled={!isValid || isSubmitting}
+        onClick={handleCalendlyClick}
         className={buttonClassName(
           "primary",
           "lg",
-          cn("mt-8 w-full", !isValid && "opacity-50 cursor-not-allowed pointer-events-none"),
+          cn(
+            "mt-8 w-full",
+            (!isValid || isSubmitting) && "opacity-50 cursor-not-allowed pointer-events-none",
+          ),
         )}
       >
         Boek gratis gesprek
