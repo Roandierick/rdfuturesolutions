@@ -56,32 +56,21 @@ export function ContactForm() {
   }
 
   async function handleCalendlyClick() {
-    if (!isValid || isSubmitting) {
-      return;
-    }
-
-    const calendlyWindow = window.open("", "_blank");
-
-    if (!calendlyWindow) {
-      return;
-    }
+    if (!isValid || isSubmitting) return;
 
     setIsSubmitting(true);
 
     try {
       await fetch("/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
     } catch (error) {
-      console.error("Contact form pre-Calendly request failed:", error);
+      console.error("Contact form request failed:", error);
     } finally {
-      calendlyWindow.location.href = "https://calendly.com/rdfuturesolutions-info/30min";
-      calendlyWindow.focus();
       setIsSubmitting(false);
+      window.open("https://calendly.com/rdfuturesolutions-info/30min", "_blank");
     }
   }
 
