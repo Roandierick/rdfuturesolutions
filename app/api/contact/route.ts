@@ -14,7 +14,7 @@ const SLOT_COUNT = 3;
 const WORKDAY_START_HOUR = 9;
 const WORKDAY_END_HOUR = 17;
 const INTERNAL_EMAIL = "info@rdfuturesolutions.be";
-const FROM_EMAIL = "RD Future Solutions <onboarding@resend.dev>";
+const FROM_EMAIL = "RD Future Solutions <info@rdfuturesolutions.be>";
 const ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
 
 type ContactPayload = {
