@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { DM_Sans, JetBrains_Mono, Playfair_Display } from "next/font/google";
+import { N8nChatWidget } from "@/components/N8nChatWidget";
 import DotGridTrail from "@/components/DotGridTrail";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -87,6 +88,7 @@ export default function RootLayout({
           <main className="relative z-[1] flex-1 overflow-x-clip pt-24 md:pt-28">{children}</main>
           <SiteFooter />
         </div>
+        <N8nChatWidget />
       </body>
     </html>
   );
