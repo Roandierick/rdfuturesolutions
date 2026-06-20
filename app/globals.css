@@ -321,3 +321,8 @@ html:root {
   --chat--window--width: 380px !important;
   --chat--window--height: 600px !important;
 }
+
+.chat-window-wrapper .chat-window-toggle {
+  background: #2952CC !important;
+  --chat--toggle--background: #2952CC !important;
+}
